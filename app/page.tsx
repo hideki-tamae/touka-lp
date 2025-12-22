@@ -256,6 +256,24 @@ export default function App() {
         <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#B69F66]/[0.05] blur-[120px] rounded-full"></div>
       </div>
 
+      {/* Early Believer枠カウンター */}
+      <div className="fixed top-24 right-8 z-[999] bg-[#010308]/90 backdrop-blur-xl border border-[#B69F66]/30 p-5 rounded-lg shadow-[0_0_30px_rgba(182,159,102,0.15)] pointer-events-auto">
+        <div className="text-[#B69F66] text-[9px] tracking-[0.3em] uppercase mb-2 font-black text-center">
+          Early Believer
+        </div>
+        <div className="text-white text-4xl font-['Italiana'] mb-1 text-center leading-none">
+          147
+        </div>
+        <div className="text-white/40 text-[10px] tracking-wider text-center">
+          Slots Remaining
+        </div>
+        <div className="mt-3 pt-3 border-t border-[#B69F66]/20">
+          <div className="text-[8px] text-[#B69F66]/70 tracking-wider text-center">
+            ¥4,980 Price
+          </div>
+        </div>
+      </div>
+
       {/* Nav */}
       <nav className={`fixed top-0 w-full z-[1000] transition-all duration-700 ${isScrolled ? 'bg-[#010308]/90 backdrop-blur-3xl py-6 border-b border-[#B69F66]/10' : 'py-12 bg-transparent'}`}>
         <div className="max-w-[1600px] mx-auto px-12 flex justify-between items-center">
@@ -339,7 +357,7 @@ export default function App() {
           </div>
           <button onClick={handlePurchase} className="px-10 py-3 border border-[#B69F66] text-[#B69F66] font-bold text-[11px] tracking-[0.4em] uppercase hover:bg-[#B69F66] hover:text-black transition-all group flex flex-col items-center gap-1.5">
             Get Access Now
-            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥4,980 / Premium Limited</span>
+            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥4,980 / Early Believer</span>
           </button>
         </div>
       </div>
@@ -362,6 +380,28 @@ export default function App() {
             <span className="text-[clamp(1rem,2vw,2.2rem)] text-[#B69F66]/60 font-light tracking-[1.5em] uppercase mt-8 block font-serif">TOUKA NO AKARI</span>
           </h1>
           <p className="mt-8 text-[11px] tracking-[0.4em] text-white/30 italic">Christmas Special Edition 2025</p>
+        </div>
+      </section>
+
+      {/* 緊急告知バナー */}
+      <section className="py-8 bg-[#B69F66]/10 backdrop-blur-md relative z-10 border-y border-[#B69F66]/30">
+        <div className="max-w-[1000px] mx-auto px-12 text-center">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            <div className="flex items-center gap-3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="animate-pulse">
+                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
+                      stroke="#B69F66" 
+                      strokeWidth="1.5" 
+                      fill="rgba(182, 159, 102, 0.2)"/>
+              </svg>
+              <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
+                Early Believer 特別価格
+              </span>
+            </div>
+            <div className="text-white/70 text-sm tracking-wider">
+              12/23 0:00より ¥5,980に値上げ　|　残り <span className="text-[#B69F66] font-bold">147枠</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -649,8 +689,20 @@ export default function App() {
               <span className="text-[9px] text-[#B69F66] tracking-widest uppercase font-bold">Listen Preview</span>
             </div>
 
+            {/* アンカー価格表示 */}
+            <div className="mb-4">
+              <div className="flex items-center justify-center gap-4 mb-2">
+                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥12,800</div>
+                <div className="px-4 py-1.5 bg-[#B69F66]/15 border border-[#B69F66]/50 rounded-full">
+                  <span className="text-[#B69F66] text-sm font-black tracking-wider">61% OFF</span>
+                </div>
+              </div>
+              <div className="text-[10px] text-white/40 tracking-wider">価値総額（全特典込み）</div>
+            </div>
+
             <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥4,980</div>
-            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Premium Christmas Edition - Limited</span>
+            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Early Believer Special Price</span>
+            <span className="text-[11px] text-white/50 tracking-wider block mt-2">12月23日より¥5,980に値上げ</span>
 
             <div className="mt-10 flex flex-col items-center gap-5 w-full">
               <ul className="w-full max-w-[620px] space-y-3 text-left p-0 list-none">
@@ -658,10 +710,11 @@ export default function App() {
                   '本編10曲＋公式ストア限定 Premium Track 1曲（計11 Tracks）',
                   '購入後すぐにダウンロード（ZIP）＋ 4K Artwork Pack 同梱',
                   'デジタルグリーティングカード付き - 贈り物に最適',
-                  '限定販売 - この価格での提供は12月25日23:59まで',
+                  '【12/22-23限定】Early Believer 称号 + コレクターズナンバー #001~#150',
+                  '限定販売 - この価格での提供は12月22日23:59まで',
                   '公式ストア限定・Secure Checkout（決済画面へ進みます）'
                 ].map((item, i) => (
-                  <li key={i} className="text-white/55 text-xs tracking-widest flex gap-3 leading-relaxed">
+                  <li key={i} className={`text-white/55 text-xs tracking-widest flex gap-3 leading-relaxed ${i === 3 ? 'text-[#B69F66] font-bold' : ''}`}>
                     <span className="text-[#B69F66] mt-1 opacity-95">•</span>{item}
                   </li>
                 ))}
