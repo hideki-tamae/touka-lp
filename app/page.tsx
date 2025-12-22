@@ -256,24 +256,6 @@ export default function App() {
         <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#B69F66]/[0.05] blur-[120px] rounded-full"></div>
       </div>
 
-      {/* Early Believer枠カウンター */}
-      <div className="fixed top-24 right-8 z-[999] bg-[#010308]/90 backdrop-blur-xl border border-[#B69F66]/30 p-5 rounded-lg shadow-[0_0_30px_rgba(182,159,102,0.15)] pointer-events-auto">
-        <div className="text-[#B69F66] text-[9px] tracking-[0.3em] uppercase mb-2 font-black text-center">
-          Early Believer
-        </div>
-        <div className="text-white text-4xl font-['Italiana'] mb-1 text-center leading-none">
-          147
-        </div>
-        <div className="text-white/40 text-[10px] tracking-wider text-center">
-          Slots Remaining
-        </div>
-        <div className="mt-3 pt-3 border-t border-[#B69F66]/20">
-          <div className="text-[8px] text-[#B69F66]/70 tracking-wider text-center">
-            ¥4,980 Price
-          </div>
-        </div>
-      </div>
-
       {/* Nav */}
       <nav className={`fixed top-0 w-full z-[1000] transition-all duration-700 ${isScrolled ? 'bg-[#010308]/90 backdrop-blur-3xl py-6 border-b border-[#B69F66]/10' : 'py-12 bg-transparent'}`}>
         <div className="max-w-[1600px] mx-auto px-12 flex justify-between items-center">
@@ -399,7 +381,8 @@ export default function App() {
               </span>
             </div>
             <div className="text-white/70 text-sm tracking-wider">
-              12/23 0:00より ¥5,980に値上げ　|　残り <span className="text-[#B69F66] font-bold">147枠</span>
+              12/23 0:00より ¥5,980に値上げ　
+              {/* 残り <span className="text-[#B69F66] font-bold">147枠</span> */}
             </div>
           </div>
         </div>
