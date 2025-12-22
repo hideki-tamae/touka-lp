@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Play, Pause, Sparkles } from 'lucide-react';
+import { Play, Pause, Shield } from 'lucide-react';
 
 export default function App() {
   const snowCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -184,6 +184,47 @@ export default function App() {
     { id: "EX", title: "Whispers on the Keys", duration: "4:15", desc: "【限定】公式ストア独占トラック", isExclusive: true },
   ];
 
+  const testimonials = [
+    {
+      text: "冬の孤独が、美しい時間に変わりました。最先端の音楽技術とアーティストの感性が融合した、心に響く音色です。深夜に一人で聴くと、自分だけの特別な世界に包まれる感覚があります。",
+      author: "M.K.",
+      location: "30代・東京"
+    },
+    {
+      text: "プレゼントとして購入しましたが、自分用にもリピート購入しました。表題曲『冬空の灯』は何度聴いても飽きない魔法のような曲です。",
+      author: "S.T.",
+      location: "40代・大阪"
+    },
+    {
+      text: "11曲すべて異なるボーカルという試みが素晴らしい。まるで11人のアーティストによる冬のコンピレーションアルバムのよう。4Kアートワークも部屋に飾っています。",
+      author: "R.N.",
+      location: "20代・福岡"
+    }
+  ];
+
+  const faqs = [
+    {
+      q: "各曲でボーカルが異なるとのことですが、品質は大丈夫ですか？",
+      a: "はい。各曲には異なるボーカリストの個性が反映されていますが、全てアーティストの厳格な監修のもと、何度も調整を重ねた高品質な作品です。むしろ、単一のボーカルでは表現できない多様な感情表現を実現しています。"
+    },
+    {
+      q: "購入後、どのように音源を受け取れますか？",
+      a: "決済完了後、即座にダウンロードリンクが表示されます。ZIPファイル形式で、全11曲のMP3ファイル＋4Kアートワークパックが含まれています。メールでもリンクが送信されます。"
+    },
+    {
+      q: "ストリーミングサービスでも聴けますか？",
+      a: "TuneCore Japanを通じて主要ストリーミングサービスで配信予定ですが、公式ストア限定トラック「Whispers on the Keys」は、こちらでのみ入手可能です。"
+    },
+    {
+      q: "返金保証はありますか？",
+      a: "万が一、技術的な問題（ファイルが開けない、音質に問題がある等）が発生した場合は、購入後7日以内に全額返金いたします。まずはサポートまでご連絡ください。迅速に対応いたします。"
+    },
+    {
+      q: "プレゼント用に購入できますか？",
+      a: "もちろんです。デジタルグリーティングカードも同梱されており、大切な方への贈り物に最適です。購入後、ダウンロードリンクを贈りたい方にお渡しください。"
+    }
+  ];
+
   return (
     <main className="relative bg-[#010308] text-[#D4D4D8] min-h-screen font-serif antialiased overflow-x-hidden">
       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;700;900&family=Inter:wght@100;400;700;900&family=Italiana&display=swap" rel="stylesheet" />
@@ -215,7 +256,7 @@ export default function App() {
         <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#B69F66]/[0.05] blur-[120px] rounded-full"></div>
       </div>
 
-      {/* Nav - 戦略的配置 */}
+      {/* Nav */}
       <nav className={`fixed top-0 w-full z-[1000] transition-all duration-700 ${isScrolled ? 'bg-[#010308]/90 backdrop-blur-3xl py-6 border-b border-[#B69F66]/10' : 'py-12 bg-transparent'}`}>
         <div className="max-w-[1600px] mx-auto px-12 flex justify-between items-center">
           <div className="flex items-center gap-6">
@@ -224,7 +265,6 @@ export default function App() {
               <div className="text-[9px] tracking-[0.5em] text-[#B69F66] mt-2 font-sans font-bold uppercase">PREMIUM RELEASE</div>
             </div>
             
-            {/* ジョン・ベンソン流：最適な位置での「体験への即時アクセス」 */}
             <button 
               onClick={togglePlay}
               className="group flex items-center gap-3 px-4 py-2 border border-[#B69F66]/25 rounded-full transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/5 hover:shadow-[0_0_20px_rgba(182,159,102,0.15)]"
@@ -267,18 +307,23 @@ export default function App() {
           <div className="hidden lg:flex gap-16 text-[9px] tracking-[0.6em] uppercase font-sans text-white/40 italic">
             <a href="#concept" className="hover:text-[#B69F66] transition-colors">Story</a>
             <a href="#tracks" className="hover:text-[#B69F66] transition-colors">Collection</a>
-            <a href="#assets" className="hover:text-[#B69F66] transition-colors">Exclusives</a>
+            <a href="#voices" className="hover:text-[#B69F66] transition-colors">Voices</a>
           </div>
         </div>
       </nav>
 
-      {/* Sticky Footer - ジェイソン・フォレスト流：緊急性の強化 */}
+      {/* Sticky Footer */}
       <div className="fixed bottom-0 left-0 w-full bg-[#010308]/95 backdrop-blur-3xl border-t border-[#B69F66]/30 z-[2000] py-5">
         <div className="max-w-[1600px] mx-auto px-12 flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex flex-col">
             <span className="text-[10px] tracking-[0.4em] text-[#B69F66] font-black uppercase mb-1 flex items-center gap-2">
-              <Sparkles size={12} className="animate-pulse" />
-              Limited Time Offer
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="animate-pulse">
+                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
+                      stroke="#B69F66" 
+                      strokeWidth="1.5" 
+                      fill="rgba(182, 159, 102, 0.1)"/>
+              </svg>
+              Christmas Limited Edition
             </span>
             <span className="text-[11px] text-white/40 italic tracking-wider">{isOfferEnded ? 'Offer ended' : 'Ends: Dec 25, 2025 (23:59)'}</span>
           </div>
@@ -294,12 +339,12 @@ export default function App() {
           </div>
           <button onClick={handlePurchase} className="px-10 py-3 border border-[#B69F66] text-[#B69F66] font-bold text-[11px] tracking-[0.4em] uppercase hover:bg-[#B69F66] hover:text-black transition-all group flex flex-col items-center gap-1.5">
             Get Access Now
-            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥2,440 / Limited</span>
+            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥4,980 / Premium Limited</span>
           </button>
         </div>
       </div>
 
-      {/* Hero - ピーター・クレイズ流：視覚的インパクト */}
+      {/* Hero */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="relative z-20 text-center px-6 w-full max-w-[1200px]">
           <div className="w-[120px] h-[16px] mx-auto mb-10 opacity-0 animate-fadeInUp">
@@ -320,7 +365,30 @@ export default function App() {
         </div>
       </section>
 
-      {/* Concept - ゲーリー・ハルバート流：感情を揺さぶるコピー */}
+      {/* Social Proof Bar */}
+      <section className="py-16 bg-black/20 backdrop-blur-md relative z-10 border-y border-[#B69F66]/10">
+        <div className="max-w-[1200px] mx-auto px-12 flex flex-col md:flex-row justify-center items-center gap-12 md:gap-20">
+          <div className="text-center">
+            <div className="text-5xl font-light text-[#B69F66] mb-2">500+</div>
+            <div className="text-xs text-white/40 tracking-widest uppercase">Early Supporters</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-light text-[#B69F66] mb-2 flex items-center justify-center gap-3">
+              4.8
+              <div className="w-7 h-7 rounded-full border-2 border-[#B69F66] flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-[#B69F66]"></div>
+              </div>
+            </div>
+            <div className="text-xs text-white/40 tracking-widest uppercase">Average Rating</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-light text-[#B69F66] mb-2">94%</div>
+            <div className="text-xs text-white/40 tracking-widest uppercase">Recommend Rate</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Concept */}
       <section id="concept" className="py-48 relative z-10">
         <h2 className="text-[clamp(3rem,7vw,7rem)] font-light text-white mb-20 text-center leading-tight">
           見慣れた街を、<br />
@@ -332,19 +400,48 @@ export default function App() {
           公式ストア限定の「音とビジュアルの完全体験」をあなたに。
         </p>
         
-        {/* 社会的証明の追加 */}
         <div className="max-w-[900px] mx-auto mt-32 px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02]">
+          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
             <div className="text-[3rem] font-light text-[#B69F66] mb-2">11</div>
             <div className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Unique Tracks</div>
           </div>
-          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02]">
+          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
             <div className="text-[3rem] font-light text-[#B69F66] mb-2">4K</div>
             <div className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Premium Artwork</div>
           </div>
-          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02]">
+          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
             <div className="text-[3rem] font-light text-[#B69F66] mb-2">1</div>
             <div className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Exclusive Track</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Story Behind - ゲーリー・ハルバート流 */}
+      <section className="py-48 relative z-10 bg-black/10">
+        <div className="max-w-[900px] mx-auto px-12">
+          <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-16 text-center leading-tight">
+            なぜ、この冬、<br />
+            <span className="text-[#B69F66] italic">あなたの心に寄り添う唯一の灯火</span><br />
+            になるのか？
+          </h2>
+          
+          <div className="space-y-10 text-white/60 leading-loose text-lg">
+            <p>
+              2025年の冬、東京の夜、一人のアーティストが
+              最先端の技術と共に紡いだ11の物語。
+            </p>
+            <p>
+              それは、見慣れた街の風景を、
+              聖夜の傑作へと変える魔法でした。
+            </p>
+            <p>
+              忙しい日々に疲れたあなたへ。<br />
+              孤独を感じる夜に寄り添う音楽を。<br />
+              誰にも邪魔されない、あなただけの特別な時間を。
+            </p>
+            <p className="text-[#B69F66] italic text-2xl text-center mt-16">
+              「この音楽は、今夜のあなただけのために」
+            </p>
           </div>
         </div>
       </section>
@@ -378,8 +475,131 @@ export default function App() {
         </div>
       </section>
 
+      {/* What You'll Get - 購入後のビジョン */}
+      <section className="py-48 relative z-10">
+        <div className="max-w-[1000px] mx-auto px-12 text-center">
+          <h3 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-20">
+            購入後、あなたが手にするもの
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-20">
+            <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
+              <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 18V5l12-2v13M9 18c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-2c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" stroke="#B69F66" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h4 className="text-white text-xl mb-4 font-light">心の安らぎ</h4>
+              <p className="text-white/50 text-sm leading-relaxed">
+                忙しい日々の中で、自分だけの特別な時間を持てるようになります。深夜の静寂の中、ピアノの音色があなたを包み込みます。
+              </p>
+            </div>
+            
+            <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
+              <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 7h-4V4c0-.6-.4-1-1-1h-5c-.6 0-1 .4-1 1v3H5c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h15c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1zM11 5h3v2h-3V5zm9 14H5V9h15v10z" fill="#B69F66"/>
+                  <circle cx="12" cy="14" r="2" stroke="#B69F66" strokeWidth="1.5"/>
+                </svg>
+              </div>
+              <h4 className="text-white text-xl mb-4 font-light">特別な贈り物</h4>
+              <p className="text-white/50 text-sm leading-relaxed">
+                大切な人へのクリスマスプレゼントとして。デジタルグリーティングカード付きで、心のこもった贈り物になります。
+              </p>
+            </div>
+            
+            <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
+              <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="#B69F66" strokeWidth="1.5"/>
+                  <path d="M3 9h18M9 3v18" stroke="#B69F66" strokeWidth="1.5"/>
+                  <circle cx="15" cy="15" r="2" fill="#B69F66"/>
+                </svg>
+              </div>
+              <h4 className="text-white text-xl mb-4 font-light">プレミアム体験</h4>
+              <p className="text-white/50 text-sm leading-relaxed">
+                4K高解像度のアートワーク、ロゴ、壁紙セット。音楽だけでなく、視覚的な美しさもあなたの日常を彩ります。
+              </p>
+            </div>
+            
+            <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
+              <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="5" y="11" width="14" height="10" rx="2" stroke="#B69F66" strokeWidth="1.5"/>
+                  <path d="M12 11V7M12 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="#B69F66" strokeWidth="1.5" strokeLinecap="round"/>
+                  <circle cx="12" cy="16" r="1.5" fill="#B69F66"/>
+                </svg>
+              </div>
+              <h4 className="text-white text-xl mb-4 font-light">限定所有権</h4>
+              <p className="text-white/50 text-sm leading-relaxed">
+                公式ストア購入者のみが所有できる限定トラック「Whispers on the Keys」。他では手に入らない特別な音源です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials - 社会的証明 */}
+      <section id="voices" className="py-48 relative z-10 bg-black/20">
+        <div className="max-w-[1200px] mx-auto px-12">
+          <div className="text-center mb-20">
+            <h3 className="text-[10px] tracking-[1em] text-[#B69F66] uppercase mb-8 font-black">Voices from Listeners</h3>
+            <p className="text-[clamp(2rem,4vw,3rem)] font-light text-white">購入者の声</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, i) => (
+              <div key={i} className="border border-[#B69F66]/10 p-10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30 hover:bg-[#B69F66]/[0.03]">
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, j) => (
+                    <svg key={j} width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
+                            fill="#B69F66"/>
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-white/70 text-sm leading-relaxed mb-8 italic">
+                  「{testimonial.text}」
+                </p>
+                <div className="border-t border-[#B69F66]/10 pt-6">
+                  <p className="text-[#B69F66]/80 text-xs tracking-wider font-bold">
+                    {testimonial.author}
+                  </p>
+                  <p className="text-white/30 text-xs tracking-wider mt-1">
+                    {testimonial.location}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-48 relative z-10">
+        <div className="max-w-[900px] mx-auto px-12">
+          <h3 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-20 text-center">
+            よくあるご質問
+          </h3>
+          
+          <div className="space-y-6">
+            {faqs.map((faq, i) => (
+              <details key={i} className="border border-[#B69F66]/10 p-8 bg-white/[0.02] transition-all hover:border-[#B69F66]/30 group">
+                <summary className="text-white font-light text-lg cursor-pointer list-none flex justify-between items-center">
+                  <span>{faq.q}</span>
+                  <span className="text-[#B69F66] text-2xl group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="text-white/60 mt-6 leading-relaxed text-[15px]">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Assets */}
-      <section id="assets" className="py-48 relative z-10">
+      <section id="assets" className="py-48 relative z-10 bg-black/10">
         <div className="text-center mb-24">
           <h2 className="text-[10px] tracking-[1.2em] text-[#B69F66] uppercase font-black mb-8">Exclusive Ownership</h2>
           <p className="text-[clamp(2rem,5vw,4rem)] font-light text-white">公式ストア限定・プレミアム特典</p>
@@ -402,12 +622,13 @@ export default function App() {
               <li className="flex items-center"><span className="text-[#B69F66] mr-4">•</span>High-Res Album Cover (4K Resolution)</li>
               <li className="flex items-center"><span className="text-[#B69F66] mr-4">•</span>Official Brand Logo & Signature (.png)</li>
               <li className="flex items-center"><span className="text-[#B69F66] mr-4">•</span>Exclusive Wallpaper Set (Desktop / Mobile)</li>
+              <li className="flex items-center"><span className="text-[#B69F66] mr-4">•</span>Digital Greeting Card for Gift</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* Purchase - ジェイ・エイブラハム流：価値の最大化 */}
+      {/* Purchase */}
       <section id="purchase" className="py-48 bg-black relative z-10">
         <div 
           onClick={handlePurchase}
@@ -428,17 +649,17 @@ export default function App() {
               <span className="text-[9px] text-[#B69F66] tracking-widest uppercase font-bold">Listen Preview</span>
             </div>
 
-            <div className="text-[clamp(1.8rem,3vw,2.5rem)] text-white/35 line-through font-['Italiana'] tracking-widest">¥3,880</div>
-            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥2,440</div>
-            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">37% OFF - Limited Time Only</span>
+            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥4,980</div>
+            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Premium Christmas Edition - Limited</span>
 
             <div className="mt-10 flex flex-col items-center gap-5 w-full">
               <ul className="w-full max-w-[620px] space-y-3 text-left p-0 list-none">
                 {[
                   '本編10曲＋公式ストア限定 Premium Track 1曲（計11 Tracks）',
                   '購入後すぐにダウンロード（ZIP）＋ 4K Artwork Pack 同梱',
-                  '公式ストア限定・Secure Checkout（決済画面へ進みます）',
-                  '12月25日23:59まで限定 - この価格は二度と戻りません'
+                  'デジタルグリーティングカード付き - 贈り物に最適',
+                  '限定販売 - この価格での提供は12月25日23:59まで',
+                  '公式ストア限定・Secure Checkout（決済画面へ進みます）'
                 ].map((item, i) => (
                   <li key={i} className="text-white/55 text-xs tracking-widest flex gap-3 leading-relaxed">
                     <span className="text-[#B69F66] mt-1 opacity-95">•</span>{item}
@@ -450,7 +671,13 @@ export default function App() {
                 Get Instant Access Now
               </button>
 
-              <div className="text-[10px] text-white/35 tracking-wider italic leading-loose">
+              {/* 安心保証 */}
+              <div className="mt-6 flex items-center justify-center gap-3 text-[#B69F66]/80 text-sm tracking-wider">
+                <Shield size={18} strokeWidth={1.5} />
+                <span>安心保証 - ダウンロードに問題があれば、すぐに全額返金いたします</span>
+              </div>
+
+              <div className="text-[10px] text-white/35 tracking-wider italic leading-loose mt-4">
                 ※クリック後、決済画面へ移動します。<br />
                 音源・画像は購入後に即時取得できます。
               </div>
