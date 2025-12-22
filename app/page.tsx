@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Play, Pause } from 'lucide-react';
+import { Play, Pause, Sparkles } from 'lucide-react';
 
 export default function App() {
   const snowCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -12,10 +12,9 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const checkoutUrl = 'https://aces.shopselect.net/items/128935995';
-  // Canvas環境でのアップロードファイルへのパスを確実に指定
   const audioSrc = 'touka-no-akari-preview.mp3';
 
-  // オーディオ初期化とエラーハンドリング
+  // オーディオ初期化
   useEffect(() => {
     const audio = new Audio();
     audio.src = audioSrc;
@@ -50,11 +49,10 @@ export default function App() {
       audio.pause();
       setIsPlaying(false);
     } else {
-      // ユーザー操作による再生開始
       audio.play().then(() => {
         setIsPlaying(true);
       }).catch(err => {
-        console.error("Playback error details:", err);
+        console.error("Playback error:", err);
         setIsPlaying(false);
       });
     }
@@ -137,7 +135,7 @@ export default function App() {
     };
   }, []);
 
-  // スクロール検知 & カウントダウン
+  // スクロール & カウントダウン
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
@@ -179,9 +177,9 @@ export default function App() {
     { id: "4", title: "冬空の灯 -Touka no Akari-", duration: "4:50", desc: "アルバムの核心をなす表題曲", canPreview: true },
     { id: "5", title: "誰も知らない時間 — My Time (B-Voice)", duration: "3:55", desc: "独りだけの温かな休息" },
     { id: "6", title: "粉雪の足跡 (Interlude)", duration: "1:45", desc: "静寂への誘い" },
-    { id: "7", title: "I’m Here for You", duration: "4:10", desc: "寄り添うためのメッセージ" },
-    { id: "8", title: "I’m Here for You (Dual Vocals Version)", duration: "4:10", desc: "重なり合う旋律의 深層" },
-    { id: "9", title: "I’m Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク" },
+    { id: "7", title: "I'm Here for You", duration: "4:10", desc: "寄り添うためのメッセージ" },
+    { id: "8", title: "I'm Here for You (Dual Vocals Version)", duration: "4:10", desc: "重なり合う旋律의 深層" },
+    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク" },
     { id: "10", title: "灯の余韻 -Afterglow-", duration: "3:30", desc: "物語の最後を見届ける調べ" },
     { id: "EX", title: "Whispers on the Keys", duration: "4:15", desc: "【限定】公式ストア独占トラック", isExclusive: true },
   ];
@@ -194,6 +192,8 @@ export default function App() {
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes audioWave { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         .font-luxury-jp { font-family: "Hiragino Mincho ProN", "MS PMincho", serif; }
         .animate-fadeInUp { animation: fadeInUp 3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         html { scroll-behavior: smooth; }
@@ -215,13 +215,55 @@ export default function App() {
         <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#B69F66]/[0.05] blur-[120px] rounded-full"></div>
       </div>
 
-      {/* Nav */}
+      {/* Nav - 戦略的配置 */}
       <nav className={`fixed top-0 w-full z-[1000] transition-all duration-700 ${isScrolled ? 'bg-[#010308]/90 backdrop-blur-3xl py-6 border-b border-[#B69F66]/10' : 'py-12 bg-transparent'}`}>
         <div className="max-w-[1600px] mx-auto px-12 flex justify-between items-center">
-          <div>
-            <div className="text-2xl font-light tracking-[0.6em] text-white uppercase">HIDEKI TAMAE</div>
-            <div className="text-[9px] tracking-[0.5em] text-[#B69F66] mt-2 font-sans font-bold uppercase">PREMIUM RELEASE</div>
+          <div className="flex items-center gap-6">
+            <div>
+              <div className="text-2xl font-light tracking-[0.6em] text-white uppercase">HIDEKI TAMAE</div>
+              <div className="text-[9px] tracking-[0.5em] text-[#B69F66] mt-2 font-sans font-bold uppercase">PREMIUM RELEASE</div>
+            </div>
+            
+            {/* ジョン・ベンソン流：最適な位置での「体験への即時アクセス」 */}
+            <button 
+              onClick={togglePlay}
+              className="group flex items-center gap-3 px-4 py-2 border border-[#B69F66]/25 rounded-full transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/5 hover:shadow-[0_0_20px_rgba(182,159,102,0.15)]"
+              aria-label={isPlaying ? "Pause preview" : "Play preview"}
+            >
+              <div className="w-5 h-5 flex items-center justify-center">
+                {isPlaying ? (
+                  <Pause size={14} className="text-[#B69F66]" />
+                ) : (
+                  <Play size={14} className="text-[#B69F66] ml-0.5" />
+                )}
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-[8px] text-[#B69F66] tracking-[0.3em] uppercase font-sans leading-none">
+                  {isPlaying ? 'Playing' : 'Preview'}
+                </span>
+                <span className="text-[10px] text-white/60 font-light tracking-wider leading-none mt-0.5">
+                  冬空の灯
+                </span>
+              </div>
+              {isPlaying && (
+                <div className="flex gap-0.5 items-center h-4 ml-1">
+                  {[0.6, 1, 0.8, 1, 0.7].map((scale, i) => (
+                    <div 
+                      key={i}
+                      className="w-[2px] bg-[#B69F66] rounded-full"
+                      style={{
+                        height: '100%',
+                        animation: `audioWave 0.8s ease-in-out infinite`,
+                        animationDelay: `${i * 0.1}s`,
+                        opacity: 0.7
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </button>
           </div>
+          
           <div className="hidden lg:flex gap-16 text-[9px] tracking-[0.6em] uppercase font-sans text-white/40 italic">
             <a href="#concept" className="hover:text-[#B69F66] transition-colors">Story</a>
             <a href="#tracks" className="hover:text-[#B69F66] transition-colors">Collection</a>
@@ -230,11 +272,14 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Sticky Footer */}
+      {/* Sticky Footer - ジェイソン・フォレスト流：緊急性の強化 */}
       <div className="fixed bottom-0 left-0 w-full bg-[#010308]/95 backdrop-blur-3xl border-t border-[#B69F66]/30 z-[2000] py-5">
         <div className="max-w-[1600px] mx-auto px-12 flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex flex-col">
-            <span className="text-[10px] tracking-[0.4em] text-[#B69F66] font-black uppercase mb-1">Limited Time Offer</span>
+            <span className="text-[10px] tracking-[0.4em] text-[#B69F66] font-black uppercase mb-1 flex items-center gap-2">
+              <Sparkles size={12} className="animate-pulse" />
+              Limited Time Offer
+            </span>
             <span className="text-[11px] text-white/40 italic tracking-wider">{isOfferEnded ? 'Offer ended' : 'Ends: Dec 25, 2025 (23:59)'}</span>
           </div>
           <div className="flex gap-8 items-center">
@@ -248,13 +293,13 @@ export default function App() {
             ))}
           </div>
           <button onClick={handlePurchase} className="px-10 py-3 border border-[#B69F66] text-[#B69F66] font-bold text-[11px] tracking-[0.4em] uppercase hover:bg-[#B69F66] hover:text-black transition-all group flex flex-col items-center gap-1.5">
-            Get Access
+            Get Access Now
             <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥2,440 / Limited</span>
           </button>
         </div>
       </div>
 
-      {/* Hero */}
+      {/* Hero - ピーター・クレイズ流：視覚的インパクト */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="relative z-20 text-center px-6 w-full max-w-[1200px]">
           <div className="w-[120px] h-[16px] mx-auto mb-10 opacity-0 animate-fadeInUp">
@@ -275,13 +320,33 @@ export default function App() {
         </div>
       </section>
 
-      {/* Concept */}
+      {/* Concept - ゲーリー・ハルバート流：感情を揺さぶるコピー */}
       <section id="concept" className="py-48 relative z-10">
-        <h2 className="text-[clamp(3rem,7vw,7rem)] font-light text-white mb-20 text-center">見慣れた街を、<br /><span className="text-[#B69F66] italic">聖夜の傑作</span>へ。</h2>
+        <h2 className="text-[clamp(3rem,7vw,7rem)] font-light text-white mb-20 text-center leading-tight">
+          見慣れた街を、<br />
+          <span className="text-[#B69F66] italic">聖夜の傑作</span>へ。
+        </h2>
         <p className="text-[#A1A1AA] text-[clamp(1.1rem,2vw,1.8rem)] leading-[2.5] max-w-[1000px] mx-auto text-center px-12 italic">
-          ピアノの音色がダイヤモンドのような輝きで描き出す、<br />あなたが主役となる至福の物語。<br /><br />
+          ピアノの音色がダイヤモンドのような輝きで描き出す、<br />
+          あなたが主役となる至福の物語。<br /><br />
           公式ストア限定の「音とビジュアルの完全体験」をあなたに。
         </p>
+        
+        {/* 社会的証明の追加 */}
+        <div className="max-w-[900px] mx-auto mt-32 px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02]">
+            <div className="text-[3rem] font-light text-[#B69F66] mb-2">11</div>
+            <div className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Unique Tracks</div>
+          </div>
+          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02]">
+            <div className="text-[3rem] font-light text-[#B69F66] mb-2">4K</div>
+            <div className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Premium Artwork</div>
+          </div>
+          <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02]">
+            <div className="text-[3rem] font-light text-[#B69F66] mb-2">1</div>
+            <div className="text-[10px] text-white/40 tracking-[0.3em] uppercase">Exclusive Track</div>
+          </div>
+        </div>
       </section>
 
       {/* Tracks */}
@@ -342,7 +407,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Purchase */}
+      {/* Purchase - ジェイ・エイブラハム流：価値の最大化 */}
       <section id="purchase" className="py-48 bg-black relative z-10">
         <div 
           onClick={handlePurchase}
@@ -365,14 +430,15 @@ export default function App() {
 
             <div className="text-[clamp(1.8rem,3vw,2.5rem)] text-white/35 line-through font-['Italiana'] tracking-widest">¥3,880</div>
             <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥2,440</div>
-            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Limited Time Offer</span>
+            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">37% OFF - Limited Time Only</span>
 
             <div className="mt-10 flex flex-col items-center gap-5 w-full">
               <ul className="w-full max-w-[620px] space-y-3 text-left p-0 list-none">
                 {[
                   '本編10曲＋公式ストア限定 Premium Track 1曲（計11 Tracks）',
                   '購入後すぐにダウンロード（ZIP）＋ 4K Artwork Pack 同梱',
-                  '公式ストア限定・Secure Checkout（決済画面へ進みます）'
+                  '公式ストア限定・Secure Checkout（決済画面へ進みます）',
+                  '12月25日23:59まで限定 - この価格は二度と戻りません'
                 ].map((item, i) => (
                   <li key={i} className="text-white/55 text-xs tracking-widest flex gap-3 leading-relaxed">
                     <span className="text-[#B69F66] mt-1 opacity-95">•</span>{item}
@@ -381,7 +447,7 @@ export default function App() {
               </ul>
 
               <button className="w-full max-w-[520px] py-4 px-6 border border-[#B69F66]/75 bg-gradient-to-b from-[#B69F66]/10 to-[#B69F66]/[0.02] text-[#F0ECE4] font-sans text-xs tracking-[0.45em] font-extrabold uppercase text-center transition-all duration-350 hover:bg-[#B69F66]/18 hover:shadow-[0_0_32px_rgba(182,159,102,0.18)] hover:-translate-y-px">
-                Get Instant Access
+                Get Instant Access Now
               </button>
 
               <div className="text-[10px] text-white/35 tracking-wider italic leading-loose">
@@ -404,4 +470,4 @@ export default function App() {
       </footer>
     </main>
   );
-} 
+}
