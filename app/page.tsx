@@ -217,7 +217,7 @@ export default function App() {
     },
     {
       q: "返金保証はありますか？",
-      a: "万が一、技術的な問題（ファイルが開けない、音質に問題がある等）が発生した場合は、購入後7日以内に全額返金いたします。まずはサポートまでご連絡ください。迅速に対応いたします。"
+      a: "購入後にダウンロードしたファイルに技術的な不具合（ファイル破損、再生不可等）があった場合は、まずファイルの再送付で対応いたします。それでも解決しない場合に限り、返金対応いたします。購入後7日以内にサポートまでご連絡ください。なお、お客様の環境（インターネット接続、デバイス互換性等）に起因する問題は対象外となります。"
     },
     {
       q: "プレゼント用に購入できますか？",
@@ -671,10 +671,10 @@ export default function App() {
                 Get Instant Access Now
               </button>
 
-              {/* 安心保証 */}
+              {/* ファイル品質保証 */}
               <div className="mt-6 flex items-center justify-center gap-3 text-[#B69F66]/80 text-sm tracking-wider">
                 <Shield size={18} strokeWidth={1.5} />
-                <span>安心保証 - ダウンロードに問題があれば、すぐに全額返金いたします</span>
+                <span>ファイル品質保証 - 不具合時は再送付またはご返金対応いたします</span>
               </div>
 
               <div className="text-[10px] text-white/35 tracking-wider italic leading-loose mt-4">
