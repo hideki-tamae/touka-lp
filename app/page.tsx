@@ -140,7 +140,8 @@ export default function Page() {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
 
-    const deadline = new Date('2025-12-25T23:59:59+09:00').getTime();
+    // ★変更: 12/26 23:59まで
+    const deadline = new Date('2025-12-26T23:59:59+09:00').getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const diff = deadline - now;
@@ -312,7 +313,7 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* Sticky Footer */}
+      {/* Sticky Footer - ★変更: ¥7,980 / Last Chance */}
       <div className="fixed bottom-0 left-0 w-full bg-[#010308]/95 backdrop-blur-3xl border-t border-[#B69F66]/30 z-[2000] py-5">
         <div className="max-w-[1600px] mx-auto px-12 flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex flex-col">
@@ -325,7 +326,7 @@ export default function Page() {
               </svg>
               Christmas Limited Edition
             </span>
-            <span className="text-[11px] text-white/40 italic tracking-wider">{isOfferEnded ? 'Offer ended' : 'Ends: Dec 25, 2025 (23:59)'}</span>
+            <span className="text-[11px] text-white/40 italic tracking-wider">{isOfferEnded ? 'Offer ended' : 'Ends: Dec 26, 2025 (23:59)'}</span>
           </div>
           <div className="flex gap-8 items-center">
             {[ 
@@ -339,7 +340,7 @@ export default function Page() {
           </div>
           <button onClick={handlePurchase} className="px-10 py-3 border border-[#B69F66] text-[#B69F66] font-bold text-[11px] tracking-[0.4em] uppercase hover:bg-[#B69F66] hover:text-black transition-all group flex flex-col items-center gap-1.5">
             Get Access Now
-            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥5,980 / Early Believer</span>
+            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥7,980 / Last Chance</span>
           </button>
         </div>
       </div>
@@ -365,7 +366,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* 緊急告知バナー */}
+      {/* 緊急告知バナー - ★変更 */}
       <section className="py-8 bg-[#B69F66]/10 backdrop-blur-md relative z-10 border-y border-[#B69F66]/30">
         <div className="max-w-[1000px] mx-auto px-12 text-center">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -377,11 +378,11 @@ export default function Page() {
                       fill="rgba(182, 159, 102, 0.2)"/>
               </svg>
               <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
-                Christmas Final Hours
+                Last Chance Hours
               </span>
             </div>
             <div className="text-white/70 text-sm tracking-wider">
-              Early Believer称号は<span className="text-[#B69F66] font-bold">本日23:59</span>で永久終了
+              Last Chance価格は<span className="text-[#B69F66] font-bold">12月26日23:59</span>で永久終了
             </div>
           </div>
         </div>
@@ -650,11 +651,10 @@ export default function Page() {
         </div>
       </section>
 
-      {/* BONUS Section - 特典セクション（新規追加） */}
+      {/* BONUS Section - ★変更: 12/26 23:59まで */}
       <section className="py-32 relative z-10 bg-gradient-to-b from-black/10 to-black/30">
         <div className="max-w-[1200px] mx-auto px-12">
           
-          {/* セクションヘッダー */}
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-3 px-6 py-2 border border-[#B69F66]/50 rounded-full mb-8 bg-[#B69F66]/5">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="animate-pulse">
@@ -673,7 +673,7 @@ export default function Page() {
             </h2>
             
             <p className="text-white/50 text-lg tracking-wider">
-              本日23:59までの購入者限定 - 参考価格<span className="text-[#B69F66] font-bold">¥17,400相当</span>を無料進呈
+              12月26日23:59までの購入者限定 - 参考価格<span className="text-[#B69F66] font-bold">¥17,400相当</span>を無料進呈
             </p>
           </div>
 
@@ -710,7 +710,6 @@ export default function Page() {
                       <span className="text-[#B69F66] mt-1">•</span>
                       <span>未収録の追加ピアノソロセクション収録</span>
                     </li>
-                    {/* ★追加：改行 + Silent echoes（モバイル崩れ防止） */}
                     <li className="flex items-start gap-2">
                       <span className="text-[#B69F66] mt-1">•</span>
                       <span>
@@ -734,7 +733,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* 特典2: Behind the Keys（PDF + Audio） */}
+            {/* 特典2: Behind the Keys */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 Exclusive
@@ -766,7 +765,7 @@ export default function Page() {
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[#B69F66] mt-1">•</span>
-                      <span>このアルバムの“正しい聴き方”ガイド（夜・順番・余韻）</span>
+                      <span>このアルバムの"正しい聴き方"ガイド（夜・順番・余韻）</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[#B69F66] mt-1">•</span>
@@ -877,7 +876,7 @@ export default function Page() {
 
           </div>
 
-          {/* 合計価値の強調 */}
+          {/* 合計価値の強調 - ★変更 */}
           <div className="mt-16 p-12 border-2 border-[#B69F66]/30 bg-gradient-to-br from-[#B69F66]/5 to-transparent rounded-lg">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
@@ -891,16 +890,15 @@ export default function Page() {
               <div className="flex flex-col items-center gap-3">
                 <div className="px-6 py-3 bg-[#B69F66]/10 border border-[#B69F66]/50 rounded-full">
                   <p className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
-                    23:59で消滅
+                    12/26 23:59で消滅
                   </p>
                 </div>
                 <p className="text-white/50 text-xs tracking-wider italic">
-                  明日以降は一切入手不可
+                  12月27日以降は一切入手不可
                 </p>
               </div>
             </div>
 
-            {/* 送付注記（BASE向け） */}
             <div className="mt-10 border-t border-[#B69F66]/15 pt-8">
               <div className="text-[11px] text-white/45 tracking-wider leading-loose">
                 <span className="text-[#B69F66] font-bold tracking-[0.25em]">【特典の送付について】</span><br />
@@ -913,7 +911,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Purchase - Final CTA */}
+      {/* Purchase - Final CTA - ★変更: ¥7,980 */}
       <section id="purchase" className="py-48 bg-black relative z-10">
         <div 
           onClick={handlePurchase}
@@ -934,20 +932,20 @@ export default function Page() {
               <span className="text-[9px] text-[#B69F66] tracking-widest uppercase font-bold">Listen Preview</span>
             </div>
 
-            {/* アンカー価格表示 */}
+            {/* アンカー価格表示 - ★変更 */}
             <div className="mb-4">
               <div className="flex items-center justify-center gap-4 mb-2">
-                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥23,380</div>
+                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥25,380</div>
                 <div className="px-4 py-1.5 bg-[#B69F66]/15 border border-[#B69F66]/50 rounded-full">
-                  <span className="text-[#B69F66] text-sm font-black tracking-wider">74% OFF</span>
+                  <span className="text-[#B69F66] text-sm font-black tracking-wider">69% OFF</span>
                 </div>
               </div>
-              <div className="text-[10px] text-white/40 tracking-wider">本体＋特典の総額（¥5,980 + ¥17,400 / 参考価格）</div>
+              <div className="text-[10px] text-white/40 tracking-wider">本体＋特典の総額（¥7,980 + ¥17,400 / 参考価格）</div>
             </div>
 
-            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥5,980</div>
-            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Early Believer Special Price</span>
-            <span className="text-[11px] text-white/50 tracking-wider block mt-2">12月24日より¥7,980に値上げ</span>
+            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥7,980</div>
+            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Last Chance Special Price</span>
+            <span className="text-[11px] text-white/50 tracking-wider block mt-2">12月26日より通常価格¥9,980に戻ります</span>
 
             <div className="mt-10 flex flex-col items-center gap-5 w-full">
               <ul className="w-full max-w-[620px] space-y-3 text-left p-0 list-none">
@@ -955,7 +953,7 @@ export default function Page() {
                   '本編10曲＋公式ストア限定 Premium Track 1曲（計11 Tracks）',
                   '購入後すぐにダウンロード（ZIP）＋ 4K Artwork Pack 同梱',
                   'デジタルグリーティングカード付き - 贈り物に最適',
-                  '【本日限定】4つの特別特典（参考価格¥17,400相当）を完全無料で進呈',
+                  '【12/26まで】4つの特別特典（参考価格¥17,400相当）を完全無料で進呈',
                   '特典は購入後14日以内にメールで順次送付（先行視聴権・クーポンは2026年に案内）',
                   '公式ストア限定・Secure Checkout（決済画面へ進みます）'
                 ].map((item, i) => (
@@ -969,7 +967,6 @@ export default function Page() {
                 Get Instant Access Now
               </button>
 
-              {/* ファイル品質保証 */}
               <div className="mt-6 flex items-center justify-center gap-3 text-[#B69F66]/80 text-sm tracking-wider">
                 <Shield size={18} strokeWidth={1.5} />
                 <span>ファイル品質保証 - 不具合時は再送付またはご返金対応いたします</span>
