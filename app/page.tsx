@@ -10,20 +10,26 @@ export default function Page() {
   const [timeLeft, setTimeLeft] = useState({ d: '00', h: '00', m: '00', s: '00' });
   const [isOfferEnded, setIsOfferEnded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentPreviewId, setCurrentPreviewId] = useState<string | null>(null);
 
   const checkoutUrl = 'https://aces.shopselect.net/items/128935995';
   const audioSrc = 'touka-no-akari-preview.mp3';
+  const slowJamSrc = 'slowjam-preview.mp3';
 
   // オーディオ初期化
   useEffect(() => {
     const audio = new Audio();
     audio.src = audioSrc;
     audio.preload = "auto";
-    
-    const handleEnded = () => setIsPlaying(false);
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setCurrentPreviewId(null);
+    };
     const handleError = (e: any) => {
       console.error("Audio Load Error:", e);
       setIsPlaying(false);
+      setCurrentPreviewId(null);
     };
 
     audio.addEventListener('ended', handleEnded);
@@ -40,22 +46,38 @@ export default function Page() {
     };
   }, []);
 
-  const togglePlay = (e?: React.MouseEvent) => {
+  const togglePlay = (e?: React.MouseEvent, src?: string, id?: string) => {
     if (e) e.stopPropagation();
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isPlaying) {
+    const nextSrc = src ?? audioSrc;
+    const nextId = id ?? "4";
+    const isSameTrack = currentPreviewId === nextId;
+
+    // 同じトラック再生中ならトグルで停止
+    if (isPlaying && isSameTrack) {
       audio.pause();
       setIsPlaying(false);
-    } else {
-      audio.play().then(() => {
-        setIsPlaying(true);
-      }).catch(err => {
-        console.error("Playback error:", err);
-        setIsPlaying(false);
-      });
+      return;
     }
+
+    // 別トラックに切り替える場合は src を差し替える
+    const audioUrl = audio.src || "";
+    if (!audioUrl.endsWith(nextSrc)) {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.src = nextSrc;
+      audio.load();
+    }
+
+    setCurrentPreviewId(nextId);
+    audio.play().then(() => {
+      setIsPlaying(true);
+    }).catch(err => {
+      console.error("Playback error:", err);
+      setIsPlaying(false);
+    });
   };
 
   // 雪のエフェクト
@@ -175,12 +197,12 @@ export default function Page() {
     { id: "1", title: "Unbroken -指輪の誓い-", duration: "4:20", desc: "至高のピアノバラード" },
     { id: "2", title: "冬空", duration: "3:45", desc: "冬の代表作" },
     { id: "3", title: "灯 -Akari-", duration: "4:12", desc: "孤独を包む光" },
-    { id: "4", title: "冬空の灯 -Touka no Akari-", duration: "4:50", desc: "アルバムの核心をなす表題曲", canPreview: true },
+    { id: "4", title: "冬空の灯 -Touka no Akari-", duration: "4:50", desc: "アルバムの核心をなす表題曲", canPreview: true, previewSrc: audioSrc },
     { id: "5", title: "誰も知らない時間 — My Time (B-Voice)", duration: "3:55", desc: "独りだけの温かな休息" },
     { id: "6", title: "粉雪の足跡 (Interlude)", duration: "1:45", desc: "静寂への誘い" },
     { id: "7", title: "I'm Here for You", duration: "4:10", desc: "寄り添うためのメッセージ" },
-    { id: "8", title: "I'm Here for You (Dual Vocals Version)", duration: "4:10", desc: "重なり合う旋律의 深層" },
-    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク" },
+    { id: "8", title: "I'm Here for You (Dual Vocals Version)", duration: "4:10", desc: "重なり合う旋律、その深層へ" },
+    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク", canPreview: true, previewSrc: slowJamSrc },
     { id: "10", title: "灯の余韻 -Afterglow-", duration: "3:30", desc: "物語の最後を見届ける調べ" },
     { id: "EX", title: "Whispers on the Keys", duration: "4:15", desc: "【限定】公式ストア独占トラック", isExclusive: true },
   ];
@@ -229,7 +251,7 @@ export default function Page() {
   return (
     <main className="relative bg-[#010308] text-[#D4D4D8] min-h-screen font-serif antialiased overflow-x-hidden">
       <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;700;900&family=Inter:wght@100;400;700;900&family=Italiana&display=swap" rel="stylesheet" />
-      
+
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -265,14 +287,14 @@ export default function Page() {
               <div className="text-2xl font-light tracking-[0.6em] text-white uppercase">HIDEKI TAMAE</div>
               <div className="text-[9px] tracking-[0.5em] text-[#B69F66] mt-2 font-sans font-bold uppercase">PREMIUM RELEASE</div>
             </div>
-            
-            <button 
-              onClick={togglePlay}
+
+            <button
+              onClick={(e) => togglePlay(e, audioSrc, "4")}
               className="group flex items-center gap-3 px-4 py-2 border border-[#B69F66]/25 rounded-full transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/5 hover:shadow-[0_0_20px_rgba(182,159,102,0.15)]"
-              aria-label={isPlaying ? "Pause preview" : "Play preview"}
+              aria-label={(isPlaying && currentPreviewId === "4") ? "Pause preview" : "Play preview"}
             >
               <div className="w-5 h-5 flex items-center justify-center">
-                {isPlaying ? (
+                {(isPlaying && currentPreviewId === "4") ? (
                   <Pause size={14} className="text-[#B69F66]" />
                 ) : (
                   <Play size={14} className="text-[#B69F66] ml-0.5" />
@@ -280,16 +302,16 @@ export default function Page() {
               </div>
               <div className="flex flex-col items-start">
                 <span className="text-[8px] text-[#B69F66] tracking-[0.3em] uppercase font-sans leading-none">
-                  {isPlaying ? 'Playing' : 'Preview'}
+                  {(isPlaying && currentPreviewId === "4") ? 'Playing' : 'Preview'}
                 </span>
                 <span className="text-[10px] text-white/60 font-light tracking-wider leading-none mt-0.5">
                   冬空の灯
                 </span>
               </div>
-              {isPlaying && (
+              {(isPlaying && currentPreviewId === "4") && (
                 <div className="flex gap-0.5 items-center h-4 ml-1">
                   {[0.6, 1, 0.8, 1, 0.7].map((scale, i) => (
-                    <div 
+                    <div
                       key={i}
                       className="w-[2px] bg-[#B69F66] rounded-full"
                       style={{
@@ -304,7 +326,7 @@ export default function Page() {
               )}
             </button>
           </div>
-          
+
           <div className="hidden lg:flex gap-16 text-[9px] tracking-[0.6em] uppercase font-sans text-white/40 italic">
             <a href="#concept" className="hover:text-[#B69F66] transition-colors">Story</a>
             <a href="#tracks" className="hover:text-[#B69F66] transition-colors">Collection</a>
@@ -319,9 +341,9 @@ export default function Page() {
           <div className="flex flex-col">
             <span className="text-[10px] tracking-[0.4em] text-[#B69F66] font-black uppercase mb-1 flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="animate-pulse">
-                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
-                      stroke="#B69F66" 
-                      strokeWidth="1.5" 
+                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z"
+                      stroke="#B69F66"
+                      strokeWidth="1.5"
                       fill="rgba(182, 159, 102, 0.1)"/>
               </svg>
               Christmas Limited Edition
@@ -329,7 +351,7 @@ export default function Page() {
             <span className="text-[11px] text-white/40 italic tracking-wider">{isOfferEnded ? 'Offer ended' : 'Ends: Dec 26, 2025 (23:59)'}</span>
           </div>
           <div className="flex gap-8 items-center">
-            {[ 
+            {[
               {v: timeLeft.d, l: 'Days'}, {v: timeLeft.h, l: 'Hrs'}, {v: timeLeft.m, l: 'Min'}, {v: timeLeft.s, l: 'Sec'}
             ].map((unit, i) => (
               <div key={i} className="text-center">
@@ -372,9 +394,9 @@ export default function Page() {
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <div className="flex items-center gap-3">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="animate-pulse">
-                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
-                      stroke="#B69F66" 
-                      strokeWidth="1.5" 
+                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z"
+                      stroke="#B69F66"
+                      strokeWidth="1.5"
                       fill="rgba(182, 159, 102, 0.2)"/>
               </svg>
               <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
@@ -422,7 +444,7 @@ export default function Page() {
           あなたが主役となる至福の物語。<br /><br />
           公式ストア限定の「音とビジュアルの完全体験」をあなたに。
         </p>
-        
+
         <div className="max-w-[900px] mx-auto mt-32 px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="border border-[#B69F66]/10 p-8 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
             <div className="text-[3rem] font-light text-[#B69F66] mb-2">11</div>
@@ -447,7 +469,7 @@ export default function Page() {
             <span className="text-[#B69F66] italic">あなたの心に寄り添う唯一の灯火</span><br />
             になるのか？
           </h2>
-          
+
           <div className="space-y-10 text-white/60 leading-loose text-lg">
             <p>
               2025年の冬、東京の夜、一人のアーティストが
@@ -484,8 +506,11 @@ export default function Page() {
                   <div className="flex items-center gap-4">
                     <span className="text-[1.6rem] text-white font-light">{track.title}</span>
                     {track.canPreview && (
-                      <button onClick={togglePlay} className="p-2 rounded-full border border-[#B69F66]/30 text-[#B69F66] hover:bg-[#B69F66] hover:text-black transition-all">
-                        {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+                      <button
+                        onClick={(e) => togglePlay(e, (track as any).previewSrc, track.id)}
+                        className="p-2 rounded-full border border-[#B69F66]/30 text-[#B69F66] hover:bg-[#B69F66] hover:text-black transition-all"
+                      >
+                        {(isPlaying && currentPreviewId === track.id) ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
                       </button>
                     )}
                   </div>
@@ -504,7 +529,7 @@ export default function Page() {
           <h3 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-20">
             購入後、あなたが手にするもの
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-20">
             <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
               <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
@@ -517,7 +542,7 @@ export default function Page() {
                 忙しい日々の中で、自分だけの特別な時間を持てるようになります。深夜の静寂の中、ピアノの音色があなたを包み込みます。
               </p>
             </div>
-            
+
             <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
               <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -530,7 +555,7 @@ export default function Page() {
                 大切な人へのクリスマスプレゼントとして。デジタルグリーティングカード付きで、心のこもった贈り物になります。
               </p>
             </div>
-            
+
             <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
               <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -544,7 +569,7 @@ export default function Page() {
                 4K高解像度のアートワーク、ロゴ、壁紙セット。音楽だけでなく、視覚的な美しさもあなたの日常を彩ります。
               </p>
             </div>
-            
+
             <div className="p-10 border border-[#B69F66]/10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30">
               <div className="w-16 h-16 mb-6 mx-auto border border-[#B69F66]/20 rounded-full flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -569,14 +594,14 @@ export default function Page() {
             <h3 className="text-[10px] tracking-[1em] text-[#B69F66] uppercase mb-8 font-black">Voices from Listeners</h3>
             <p className="text-[clamp(2rem,4vw,3rem)] font-light text-white">購入者の声</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, i) => (
               <div key={i} className="border border-[#B69F66]/10 p-10 bg-white/[0.02] transition-all hover:border-[#B69F66]/30 hover:bg-[#B69F66]/[0.03]">
                 <div className="flex gap-1 mb-6">
                   {[...Array(5)].map((_, j) => (
                     <svg key={j} width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
                             fill="#B69F66"/>
                     </svg>
                   ))}
@@ -604,7 +629,7 @@ export default function Page() {
           <h3 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-20 text-center">
             よくあるご質問
           </h3>
-          
+
           <div className="space-y-6">
             {faqs.map((faq, i) => (
               <details key={i} className="border border-[#B69F66]/10 p-8 bg-white/[0.02] transition-all hover:border-[#B69F66]/30 group">
@@ -654,24 +679,24 @@ export default function Page() {
       {/* BONUS Section - ★変更: 12/26 23:59まで */}
       <section className="py-32 relative z-10 bg-gradient-to-b from-black/10 to-black/30">
         <div className="max-w-[1200px] mx-auto px-12">
-          
+
           <div className="text-center mb-20">
             <div className="inline-flex items-center gap-3 px-6 py-2 border border-[#B69F66]/50 rounded-full mb-8 bg-[#B69F66]/5">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="animate-pulse">
-                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
-                      stroke="#B69F66" 
-                      strokeWidth="1.5" 
+                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z"
+                      stroke="#B69F66"
+                      strokeWidth="1.5"
                       fill="rgba(182, 159, 102, 0.2)"/>
               </svg>
               <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
                 Limited Time Bonuses
               </span>
             </div>
-            
+
             <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light text-white mb-6">
               今だけの<span className="text-[#B69F66] italic">特別特典</span>
             </h2>
-            
+
             <p className="text-white/50 text-lg tracking-wider">
               12月26日23:59までの購入者限定 - 参考価格<span className="text-[#B69F66] font-bold">¥17,400相当</span>を無料進呈
             </p>
@@ -679,13 +704,13 @@ export default function Page() {
 
           {/* 特典グリッド */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
+
             {/* 特典1: Bonus Track Pack */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 New
               </div>
-              
+
               <div className="flex items-start gap-6 mb-6">
                 <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -693,7 +718,7 @@ export default function Page() {
                     <path d="M10 8l6 4-6 4V8z" fill="#B69F66"/>
                   </svg>
                 </div>
-                
+
                 <div className="flex-1">
                   <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
                     Bonus Track Pack #1
@@ -726,7 +751,7 @@ export default function Page() {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
                 <span className="text-white/40 text-xs tracking-wider">参考価格</span>
                 <span className="text-[#B69F66] text-xl font-['Italiana']">¥2,980</span>
@@ -738,7 +763,7 @@ export default function Page() {
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 Exclusive
               </div>
-              
+
               <div className="flex items-start gap-6 mb-6">
                 <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -746,7 +771,7 @@ export default function Page() {
                     <rect x="2" y="3" width="20" height="18" rx="2" stroke="#B69F66" strokeWidth="1.5" fill="none"/>
                   </svg>
                 </div>
-                
+
                 <div className="flex-1">
                   <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
                     Bonus Book #2
@@ -774,7 +799,7 @@ export default function Page() {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
                 <span className="text-white/40 text-xs tracking-wider">参考価格</span>
                 <span className="text-[#B69F66] text-xl font-['Italiana']">¥3,980</span>
@@ -786,7 +811,7 @@ export default function Page() {
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66]/20 text-[#B69F66] text-[9px] font-black tracking-widest uppercase rounded-full border border-[#B69F66]/50">
                 Digital
               </div>
-              
+
               <div className="flex items-start gap-6 mb-6">
                 <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -796,7 +821,7 @@ export default function Page() {
                     <rect x="14" y="14" width="7" height="7" stroke="#B69F66" strokeWidth="1.5" fill="rgba(182, 159, 102, 0.25)"/>
                   </svg>
                 </div>
-                
+
                 <div className="flex-1">
                   <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
                     Bonus Assets #3
@@ -820,7 +845,7 @@ export default function Page() {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
                 <span className="text-white/40 text-xs tracking-wider">参考価格</span>
                 <span className="text-[#B69F66] text-xl font-['Italiana']">¥3,980</span>
@@ -832,18 +857,18 @@ export default function Page() {
               <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-[#B69F66] to-[#D4AF37] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 VIP
               </div>
-              
+
               <div className="flex items-start gap-6 mb-6">
                 <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
-                          stroke="#B69F66" 
-                          strokeWidth="1.5" 
+                    <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z"
+                          stroke="#B69F66"
+                          strokeWidth="1.5"
                           fill="rgba(182, 159, 102, 0.2)"/>
                     <circle cx="12" cy="12" r="3" fill="#B69F66"/>
                   </svg>
                 </div>
-                
+
                 <div className="flex-1">
                   <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
                     Bonus Access #4
@@ -867,7 +892,7 @@ export default function Page() {
                   </ul>
                 </div>
               </div>
-              
+
               <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
                 <span className="text-white/40 text-xs tracking-wider">参考価格</span>
                 <span className="text-[#B69F66] text-xl font-['Italiana']">¥6,460</span>
@@ -886,7 +911,7 @@ export default function Page() {
                   → 本日限定で<span className="text-4xl mx-2">完全無料</span>
                 </p>
               </div>
-              
+
               <div className="flex flex-col items-center gap-3">
                 <div className="px-6 py-3 bg-[#B69F66]/10 border border-[#B69F66]/50 rounded-full">
                   <p className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
@@ -913,7 +938,7 @@ export default function Page() {
 
       {/* Purchase - Final CTA - ★変更: ¥7,980 */}
       <section id="purchase" className="py-48 bg-black relative z-10">
-        <div 
+        <div
           onClick={handlePurchase}
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handlePurchase()}
           tabIndex={0}
@@ -921,13 +946,13 @@ export default function Page() {
         >
           <div className="text-center">
             <span className="text-[13px] text-[#B69F66] tracking-[0.5em] uppercase font-black mb-4 block font-sans">Christmas Special Edition</span>
-            
+
             <div className="mb-8 flex flex-col items-center gap-3">
-              <button 
-                onClick={togglePlay} 
+              <button
+                onClick={(e) => togglePlay(e, audioSrc, "4")}
                 className="w-16 h-16 flex items-center justify-center rounded-full border border-[#B69F66]/40 hover:bg-[#B69F66]/10 transition-all"
               >
-                {isPlaying ? <Pause size={24} className="text-[#B69F66]" /> : <Play size={24} className="text-[#B69F66] ml-1" />}
+                {(isPlaying && currentPreviewId === "4") ? <Pause size={24} className="text-[#B69F66]" /> : <Play size={24} className="text-[#B69F66] ml-1" />}
               </button>
               <span className="text-[9px] text-[#B69F66] tracking-widest uppercase font-bold">Listen Preview</span>
             </div>
