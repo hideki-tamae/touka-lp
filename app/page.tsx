@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Play, Pause, Shield } from 'lucide-react';
 
-export default function App() {
+export default function Page() {
   const snowCanvasRef = useRef<HTMLCanvasElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -209,7 +209,7 @@ export default function App() {
     },
     {
       q: "購入後、どのように音源を受け取れますか？",
-      a: "決済完了後、即座にダウンロードリンクが表示されます。ZIPファイル形式で、全11曲のMP3ファイル＋4Kアートワークパックが含まれています。メールでもリンクが送信されます。"
+      a: "決済完了後、アルバム本編（全11曲のMP3＋4Kアートワークパック）は、即座にダウンロードリンクが表示されます（メールでもリンクが送信されます）。期間限定の特典（Bonus Track Pack / Behind the Keys / 各種ボーナス）は、準備が整い次第、ご購入から14日以内にダウンロードURLを購入時メールアドレス宛に順次お送りします。なお、先行視聴権・クーポンは2026年新作リリース時にメールでご案内します。"
     },
     {
       q: "ストリーミングサービスでも聴けますか？",
@@ -339,7 +339,7 @@ export default function App() {
           </div>
           <button onClick={handlePurchase} className="px-10 py-3 border border-[#B69F66] text-[#B69F66] font-bold text-[11px] tracking-[0.4em] uppercase hover:bg-[#B69F66] hover:text-black transition-all group flex flex-col items-center gap-1.5">
             Get Access Now
-            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥4,980 / Early Believer</span>
+            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥5,980 / Early Believer</span>
           </button>
         </div>
       </div>
@@ -377,12 +377,11 @@ export default function App() {
                       fill="rgba(182, 159, 102, 0.2)"/>
               </svg>
               <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
-                Early Believer 特別価格
+                Christmas Final Hours
               </span>
             </div>
             <div className="text-white/70 text-sm tracking-wider">
-              12/23 0:00より ¥5,980に値上げ　
-              {/* 残り <span className="text-[#B69F66] font-bold">147枠</span> */}
+              Early Believer称号は<span className="text-[#B69F66] font-bold">本日23:59</span>で永久終了
             </div>
           </div>
         </div>
@@ -439,7 +438,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Story Behind - ゲーリー・ハルバート流 */}
+      {/* Story Behind */}
       <section className="py-48 relative z-10 bg-black/10">
         <div className="max-w-[900px] mx-auto px-12">
           <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-16 text-center leading-tight">
@@ -498,7 +497,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* What You'll Get - 購入後のビジョン */}
+      {/* What You'll Get */}
       <section className="py-48 relative z-10">
         <div className="max-w-[1000px] mx-auto px-12 text-center">
           <h3 className="text-[clamp(2.5rem,5vw,4rem)] font-light text-white mb-20">
@@ -562,7 +561,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Testimonials - 社会的証明 */}
+      {/* Testimonials */}
       <section id="voices" className="py-48 relative z-10 bg-black/20">
         <div className="max-w-[1200px] mx-auto px-12">
           <div className="text-center mb-20">
@@ -651,7 +650,270 @@ export default function App() {
         </div>
       </section>
 
-      {/* Purchase */}
+      {/* BONUS Section - 特典セクション（新規追加） */}
+      <section className="py-32 relative z-10 bg-gradient-to-b from-black/10 to-black/30">
+        <div className="max-w-[1200px] mx-auto px-12">
+          
+          {/* セクションヘッダー */}
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-3 px-6 py-2 border border-[#B69F66]/50 rounded-full mb-8 bg-[#B69F66]/5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="animate-pulse">
+                <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
+                      stroke="#B69F66" 
+                      strokeWidth="1.5" 
+                      fill="rgba(182, 159, 102, 0.2)"/>
+              </svg>
+              <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
+                Limited Time Bonuses
+              </span>
+            </div>
+            
+            <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light text-white mb-6">
+              今だけの<span className="text-[#B69F66] italic">特別特典</span>
+            </h2>
+            
+            <p className="text-white/50 text-lg tracking-wider">
+              本日23:59までの購入者限定 - 参考価格<span className="text-[#B69F66] font-bold">¥17,400相当</span>を無料進呈
+            </p>
+          </div>
+
+          {/* 特典グリッド */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            {/* 特典1: Bonus Track Pack */}
+            <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
+              <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
+                New
+              </div>
+              
+              <div className="flex items-start gap-6 mb-6">
+                <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#B69F66" strokeWidth="1.5"/>
+                    <path d="M10 8l6 4-6 4V8z" fill="#B69F66"/>
+                  </svg>
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
+                    Bonus Track Pack #1
+                  </h3>
+                  <p className="text-[#B69F66] text-sm font-bold mb-4 tracking-widest">
+                    Extended Midnight + Silent Echoes
+                  </p>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>「冬空の灯」拡張版 - 7分超のロングバージョン</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>未収録の追加ピアノソロセクション収録</span>
+                    </li>
+                    {/* ★追加：改行 + Silent echoes（モバイル崩れ防止） */}
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>
+                        冬の余韻を深めるボーナストラック
+                        <span className="block mt-1 text-[#B69F66] font-bold tracking-widest">
+                          Silent echoes
+                        </span>
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>本日購入者のみ永久取得（非売品）</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
+                <span className="text-white/40 text-xs tracking-wider">参考価格</span>
+                <span className="text-[#B69F66] text-xl font-['Italiana']">¥2,980</span>
+              </div>
+            </div>
+
+            {/* 特典2: Behind the Keys（PDF + Audio） */}
+            <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
+              <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
+                Exclusive
+              </div>
+              
+              <div className="flex items-start gap-6 mb-6">
+                <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 6h16M4 12h16M4 18h10" stroke="#B69F66" strokeWidth="1.5" strokeLinecap="round"/>
+                    <rect x="2" y="3" width="20" height="18" rx="2" stroke="#B69F66" strokeWidth="1.5" fill="none"/>
+                  </svg>
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
+                    Bonus Book #2
+                  </h3>
+                  <p className="text-[#B69F66] text-sm font-bold mb-4 tracking-widest">
+                    「Behind the Keys」セルフライナーノーツ完全版
+                  </p>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>全11曲：制作背景・聴きどころ・意図（PDF 18〜24p）</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>「なぜこの音なのか」意思決定の記録（コンセプト／構造）</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>このアルバムの“正しい聴き方”ガイド（夜・順番・余韻）</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>購入者限定：音声解説（10〜15分 / mp3）</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
+                <span className="text-white/40 text-xs tracking-wider">参考価格</span>
+                <span className="text-[#B69F66] text-xl font-['Italiana']">¥3,980</span>
+              </div>
+            </div>
+
+            {/* 特典3: ビジュアルパック */}
+            <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
+              <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66]/20 text-[#B69F66] text-[9px] font-black tracking-widest uppercase rounded-full border border-[#B69F66]/50">
+                Digital
+              </div>
+              
+              <div className="flex items-start gap-6 mb-6">
+                <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" stroke="#B69F66" strokeWidth="1.5" fill="rgba(182, 159, 102, 0.2)"/>
+                    <rect x="14" y="3" width="7" height="7" stroke="#B69F66" strokeWidth="1.5" fill="rgba(182, 159, 102, 0.1)"/>
+                    <rect x="3" y="14" width="7" height="7" stroke="#B69F66" strokeWidth="1.5" fill="rgba(182, 159, 102, 0.15)"/>
+                    <rect x="14" y="14" width="7" height="7" stroke="#B69F66" strokeWidth="1.5" fill="rgba(182, 159, 102, 0.25)"/>
+                  </svg>
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
+                    Bonus Assets #3
+                  </h3>
+                  <p className="text-[#B69F66] text-sm font-bold mb-4 tracking-widest">
+                    プレミアム・ビジュアルパック完全版
+                  </p>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>全11曲の個別アートワーク（4K解像度）</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>デスクトップ壁紙 5種 + モバイル壁紙 10種</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>SNS投稿用テンプレート（Instagram/X対応）</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
+                <span className="text-white/40 text-xs tracking-wider">参考価格</span>
+                <span className="text-[#B69F66] text-xl font-['Italiana']">¥3,980</span>
+              </div>
+            </div>
+
+            {/* 特典4: VIPアクセス */}
+            <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
+              <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-[#B69F66] to-[#D4AF37] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
+                VIP
+              </div>
+              
+              <div className="flex items-start gap-6 mb-6">
+                <div className="w-16 h-16 flex-shrink-0 rounded-lg bg-gradient-to-br from-[#B69F66]/30 to-[#B69F66]/10 border border-[#B69F66]/40 flex items-center justify-center">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L15.5 8.5L22 12L15.5 15.5L12 22L8.5 15.5L2 12L8.5 8.5L12 2Z" 
+                          stroke="#B69F66" 
+                          strokeWidth="1.5" 
+                          fill="rgba(182, 159, 102, 0.2)"/>
+                    <circle cx="12" cy="12" r="3" fill="#B69F66"/>
+                  </svg>
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-white text-2xl font-light mb-3 tracking-tight">
+                    Bonus Access #4
+                  </h3>
+                  <p className="text-[#B69F66] text-sm font-bold mb-4 tracking-widest">
+                    2026年新作の先行視聴権 + 20% OFF
+                  </p>
+                  <ul className="space-y-2 text-white/60 text-sm">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>次回アルバム発売の1週間前に先行視聴</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>購入時に使える20%OFFクーポン進呈</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#B69F66] mt-1">•</span>
+                      <span>Early Believer限定の永久特権</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="border-t border-[#B69F66]/10 pt-4 flex justify-between items-center">
+                <span className="text-white/40 text-xs tracking-wider">参考価格</span>
+                <span className="text-[#B69F66] text-xl font-['Italiana']">¥6,460</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* 合計価値の強調 */}
+          <div className="mt-16 p-12 border-2 border-[#B69F66]/30 bg-gradient-to-br from-[#B69F66]/5 to-transparent rounded-lg">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="text-center md:text-left">
+                <p className="text-white/60 text-sm tracking-wider mb-2">特典総額（4つ合計 / 参考価格）</p>
+                <p className="text-white/40 text-3xl line-through font-['Italiana'] mb-1">¥17,400</p>
+                <p className="text-[#B69F66] text-lg tracking-widest font-bold">
+                  → 本日限定で<span className="text-4xl mx-2">完全無料</span>
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center gap-3">
+                <div className="px-6 py-3 bg-[#B69F66]/10 border border-[#B69F66]/50 rounded-full">
+                  <p className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
+                    23:59で消滅
+                  </p>
+                </div>
+                <p className="text-white/50 text-xs tracking-wider italic">
+                  明日以降は一切入手不可
+                </p>
+              </div>
+            </div>
+
+            {/* 送付注記（BASE向け） */}
+            <div className="mt-10 border-t border-[#B69F66]/15 pt-8">
+              <div className="text-[11px] text-white/45 tracking-wider leading-loose">
+                <span className="text-[#B69F66] font-bold tracking-[0.25em]">【特典の送付について】</span><br />
+                特典はデジタルコンテンツです。準備が整い次第、<span className="text-[#B69F66] font-bold">ご購入から14日以内</span>にダウンロードURLを購入時メールアドレス宛に順次お送りします。<br />
+                Bonus Access（先行視聴権・クーポン）は、2026年新作リリース時にメールでご案内します。迷惑メールフォルダもご確認ください。
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Purchase - Final CTA */}
       <section id="purchase" className="py-48 bg-black relative z-10">
         <div 
           onClick={handlePurchase}
@@ -675,17 +937,17 @@ export default function App() {
             {/* アンカー価格表示 */}
             <div className="mb-4">
               <div className="flex items-center justify-center gap-4 mb-2">
-                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥12,800</div>
+                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥23,380</div>
                 <div className="px-4 py-1.5 bg-[#B69F66]/15 border border-[#B69F66]/50 rounded-full">
-                  <span className="text-[#B69F66] text-sm font-black tracking-wider">61% OFF</span>
+                  <span className="text-[#B69F66] text-sm font-black tracking-wider">74% OFF</span>
                 </div>
               </div>
-              <div className="text-[10px] text-white/40 tracking-wider">価値総額（全特典込み）</div>
+              <div className="text-[10px] text-white/40 tracking-wider">本体＋特典の総額（¥5,980 + ¥17,400 / 参考価格）</div>
             </div>
 
-            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥4,980</div>
+            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥5,980</div>
             <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Early Believer Special Price</span>
-            <span className="text-[11px] text-white/50 tracking-wider block mt-2">12月23日より¥5,980に値上げ</span>
+            <span className="text-[11px] text-white/50 tracking-wider block mt-2">12月24日より¥7,980に値上げ</span>
 
             <div className="mt-10 flex flex-col items-center gap-5 w-full">
               <ul className="w-full max-w-[620px] space-y-3 text-left p-0 list-none">
@@ -693,8 +955,8 @@ export default function App() {
                   '本編10曲＋公式ストア限定 Premium Track 1曲（計11 Tracks）',
                   '購入後すぐにダウンロード（ZIP）＋ 4K Artwork Pack 同梱',
                   'デジタルグリーティングカード付き - 贈り物に最適',
-                  '【12/22-23限定】Early Believer 称号 + コレクターズナンバー #001~#150',
-                  '限定販売 - この価格での提供は12月22日23:59まで',
+                  '【本日限定】4つの特別特典（参考価格¥17,400相当）を完全無料で進呈',
+                  '特典は購入後14日以内にメールで順次送付（先行視聴権・クーポンは2026年に案内）',
                   '公式ストア限定・Secure Checkout（決済画面へ進みます）'
                 ].map((item, i) => (
                   <li key={i} className={`text-white/55 text-xs tracking-widest flex gap-3 leading-relaxed ${i === 3 ? 'text-[#B69F66] font-bold' : ''}`}>
@@ -715,7 +977,7 @@ export default function App() {
 
               <div className="text-[10px] text-white/35 tracking-wider italic leading-loose mt-4">
                 ※クリック後、決済画面へ移動します。<br />
-                音源・画像は購入後に即時取得できます。
+                本編の音源・画像は購入後すぐ取得できます。期間限定特典は購入後14日以内にメールで順次送付します。
               </div>
             </div>
 
