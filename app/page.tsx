@@ -12,7 +12,7 @@ export default function Page() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const checkoutUrl = 'https://aces.shopselect.net/items/128935995';
-  const audioSrc = 'touka-no-akari-preview2.mp3'; // ★変更
+  const audioSrc = 'touka-no-akari-preview3.mp3'; // ★変更
 
   // オーディオ初期化
   useEffect(() => {
