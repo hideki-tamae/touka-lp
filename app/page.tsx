@@ -10,11 +10,9 @@ export default function Page() {
   const [timeLeft, setTimeLeft] = useState({ d: '00', h: '00', m: '00', s: '00' });
   const [isOfferEnded, setIsOfferEnded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPreviewId, setCurrentPreviewId] = useState<string | null>(null);
 
   const checkoutUrl = 'https://aces.shopselect.net/items/128935995';
-  const audioSrc = 'touka-no-akari-preview.mp3';
-  const slowJamSrc = 'slowjam-preview.mp3';
+  const audioSrc = 'touka-no-akari-preview2.mp3'; // ★変更
 
   // オーディオ初期化
   useEffect(() => {
@@ -22,14 +20,10 @@ export default function Page() {
     audio.src = audioSrc;
     audio.preload = "auto";
 
-    const handleEnded = () => {
-      setIsPlaying(false);
-      setCurrentPreviewId(null);
-    };
+    const handleEnded = () => setIsPlaying(false);
     const handleError = (e: any) => {
       console.error("Audio Load Error:", e);
       setIsPlaying(false);
-      setCurrentPreviewId(null);
     };
 
     audio.addEventListener('ended', handleEnded);
@@ -46,38 +40,22 @@ export default function Page() {
     };
   }, []);
 
-  const togglePlay = (e?: React.MouseEvent, src?: string, id?: string) => {
+  const togglePlay = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const audio = audioRef.current;
     if (!audio) return;
 
-    const nextSrc = src ?? audioSrc;
-    const nextId = id ?? "4";
-    const isSameTrack = currentPreviewId === nextId;
-
-    // 同じトラック再生中ならトグルで停止
-    if (isPlaying && isSameTrack) {
+    if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
-      return;
+    } else {
+      audio.play().then(() => {
+        setIsPlaying(true);
+      }).catch(err => {
+        console.error("Playback error:", err);
+        setIsPlaying(false);
+      });
     }
-
-    // 別トラックに切り替える場合は src を差し替える
-    const audioUrl = audio.src || "";
-    if (!audioUrl.endsWith(nextSrc)) {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.src = nextSrc;
-      audio.load();
-    }
-
-    setCurrentPreviewId(nextId);
-    audio.play().then(() => {
-      setIsPlaying(true);
-    }).catch(err => {
-      console.error("Playback error:", err);
-      setIsPlaying(false);
-    });
   };
 
   // 雪のエフェクト
@@ -162,7 +140,6 @@ export default function Page() {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
 
-    // ★変更: 12/26 23:59まで
     const deadline = new Date('2025-12-26T23:59:59+09:00').getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -197,12 +174,12 @@ export default function Page() {
     { id: "1", title: "Unbroken -指輪の誓い-", duration: "4:20", desc: "至高のピアノバラード" },
     { id: "2", title: "冬空", duration: "3:45", desc: "冬の代表作" },
     { id: "3", title: "灯 -Akari-", duration: "4:12", desc: "孤独を包む光" },
-    { id: "4", title: "冬空の灯 -Touka no Akari-", duration: "4:50", desc: "アルバムの核心をなす表題曲", canPreview: true, previewSrc: audioSrc },
+    { id: "4", title: "冬空の灯 -Touka no Akari-", duration: "4:50", desc: "アルバムの核心をなす表題曲", canPreview: true },
     { id: "5", title: "誰も知らない時間 — My Time (B-Voice)", duration: "3:55", desc: "独りだけの温かな休息" },
     { id: "6", title: "粉雪の足跡 (Interlude)", duration: "1:45", desc: "静寂への誘い" },
     { id: "7", title: "I'm Here for You", duration: "4:10", desc: "寄り添うためのメッセージ" },
     { id: "8", title: "I'm Here for You (Dual Vocals Version)", duration: "4:10", desc: "重なり合う旋律、その深層へ" },
-    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク", canPreview: true, previewSrc: slowJamSrc },
+    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク" }, // ★視聴無効化
     { id: "10", title: "灯の余韻 -Afterglow-", duration: "3:30", desc: "物語の最後を見届ける調べ" },
     { id: "EX", title: "Whispers on the Keys", duration: "4:15", desc: "【限定】公式ストア独占トラック", isExclusive: true },
   ];
@@ -289,12 +266,12 @@ export default function Page() {
             </div>
 
             <button
-              onClick={(e) => togglePlay(e, audioSrc, "4")}
+              onClick={togglePlay}
               className="group flex items-center gap-3 px-4 py-2 border border-[#B69F66]/25 rounded-full transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/5 hover:shadow-[0_0_20px_rgba(182,159,102,0.15)]"
-              aria-label={(isPlaying && currentPreviewId === "4") ? "Pause preview" : "Play preview"}
+              aria-label={isPlaying ? "Pause preview" : "Play preview"}
             >
               <div className="w-5 h-5 flex items-center justify-center">
-                {(isPlaying && currentPreviewId === "4") ? (
+                {isPlaying ? (
                   <Pause size={14} className="text-[#B69F66]" />
                 ) : (
                   <Play size={14} className="text-[#B69F66] ml-0.5" />
@@ -302,13 +279,13 @@ export default function Page() {
               </div>
               <div className="flex flex-col items-start">
                 <span className="text-[8px] text-[#B69F66] tracking-[0.3em] uppercase font-sans leading-none">
-                  {(isPlaying && currentPreviewId === "4") ? 'Playing' : 'Preview'}
+                  {isPlaying ? 'Playing' : 'Preview'}
                 </span>
                 <span className="text-[10px] text-white/60 font-light tracking-wider leading-none mt-0.5">
                   冬空の灯
                 </span>
               </div>
-              {(isPlaying && currentPreviewId === "4") && (
+              {isPlaying && (
                 <div className="flex gap-0.5 items-center h-4 ml-1">
                   {[0.6, 1, 0.8, 1, 0.7].map((scale, i) => (
                     <div
@@ -335,7 +312,7 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* Sticky Footer - ★変更: ¥7,980 / Last Chance */}
+      {/* Sticky Footer */}
       <div className="fixed bottom-0 left-0 w-full bg-[#010308]/95 backdrop-blur-3xl border-t border-[#B69F66]/30 z-[2000] py-5">
         <div className="max-w-[1600px] mx-auto px-12 flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="flex flex-col">
@@ -388,7 +365,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* 緊急告知バナー - ★変更 */}
+      {/* 緊急告知バナー */}
       <section className="py-8 bg-[#B69F66]/10 backdrop-blur-md relative z-10 border-y border-[#B69F66]/30">
         <div className="max-w-[1000px] mx-auto px-12 text-center">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -506,11 +483,8 @@ export default function Page() {
                   <div className="flex items-center gap-4">
                     <span className="text-[1.6rem] text-white font-light">{track.title}</span>
                     {track.canPreview && (
-                      <button
-                        onClick={(e) => togglePlay(e, (track as any).previewSrc, track.id)}
-                        className="p-2 rounded-full border border-[#B69F66]/30 text-[#B69F66] hover:bg-[#B69F66] hover:text-black transition-all"
-                      >
-                        {(isPlaying && currentPreviewId === track.id) ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+                      <button onClick={togglePlay} className="p-2 rounded-full border border-[#B69F66]/30 text-[#B69F66] hover:bg-[#B69F66] hover:text-black transition-all">
+                        {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
                       </button>
                     )}
                   </div>
@@ -676,7 +650,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* BONUS Section - ★変更: 12/26 23:59まで */}
+      {/* BONUS Section */}
       <section className="py-32 relative z-10 bg-gradient-to-b from-black/10 to-black/30">
         <div className="max-w-[1200px] mx-auto px-12">
 
@@ -705,7 +679,7 @@ export default function Page() {
           {/* 特典グリッド */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-            {/* 特典1: Bonus Track Pack */}
+            {/* 特典1 */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 New
@@ -758,7 +732,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* 特典2: Behind the Keys */}
+            {/* 特典2 */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 Exclusive
@@ -806,7 +780,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* 特典3: ビジュアルパック */}
+            {/* 特典3 */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66]/20 text-[#B69F66] text-[9px] font-black tracking-widest uppercase rounded-full border border-[#B69F66]/50">
                 Digital
@@ -852,7 +826,7 @@ export default function Page() {
               </div>
             </div>
 
-            {/* 特典4: VIPアクセス */}
+            {/* 特典4 */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-[#B69F66] to-[#D4AF37] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
                 VIP
@@ -901,7 +875,7 @@ export default function Page() {
 
           </div>
 
-          {/* 合計価値の強調 - ★変更 */}
+          {/* 合計価値の強調 */}
           <div className="mt-16 p-12 border-2 border-[#B69F66]/30 bg-gradient-to-br from-[#B69F66]/5 to-transparent rounded-lg">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="text-center md:text-left">
@@ -936,7 +910,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Purchase - Final CTA - ★変更: ¥7,980 */}
+      {/* Purchase - Final CTA */}
       <section id="purchase" className="py-48 bg-black relative z-10">
         <div
           onClick={handlePurchase}
@@ -949,15 +923,14 @@ export default function Page() {
 
             <div className="mb-8 flex flex-col items-center gap-3">
               <button
-                onClick={(e) => togglePlay(e, audioSrc, "4")}
+                onClick={togglePlay}
                 className="w-16 h-16 flex items-center justify-center rounded-full border border-[#B69F66]/40 hover:bg-[#B69F66]/10 transition-all"
               >
-                {(isPlaying && currentPreviewId === "4") ? <Pause size={24} className="text-[#B69F66]" /> : <Play size={24} className="text-[#B69F66] ml-1" />}
+                {isPlaying ? <Pause size={24} className="text-[#B69F66]" /> : <Play size={24} className="text-[#B69F66] ml-1" />}
               </button>
               <span className="text-[9px] text-[#B69F66] tracking-widest uppercase font-bold">Listen Preview</span>
             </div>
 
-            {/* アンカー価格表示 - ★変更 */}
             <div className="mb-4">
               <div className="flex items-center justify-center gap-4 mb-2">
                 <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥25,380</div>
