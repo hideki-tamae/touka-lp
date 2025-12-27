@@ -8,11 +8,11 @@ export default function Page() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ d: '00', h: '00', m: '00', s: '00' });
-  const [isOfferEnded, setIsOfferEnded] = useState(false);
+  const [isOfferEnded, setIsOfferEnded] = useState(true); // ★ true に変更
   const [isPlaying, setIsPlaying] = useState(false);
 
   const checkoutUrl = 'https://aces.shopselect.net/items/128935995';
-  const audioSrc = 'touka-no-akari-preview3.mp3'; // ★変更
+  const audioSrc = 'touka-no-akari-preview3.mp3';
 
   // オーディオ初期化
   useEffect(() => {
@@ -135,31 +135,13 @@ export default function Page() {
     };
   }, []);
 
-  // スクロール & カウントダウン
+  // スクロール（カウントダウンは削除、タイマーは0000のまま表示）
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
 
-    const deadline = new Date('2025-12-26T23:59:59+09:00').getTime();
-    const timer = setInterval(() => {
-      const now = new Date().getTime();
-      const diff = deadline - now;
-      if (diff > 0) {
-        setTimeLeft({
-          d: String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0'),
-          h: String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0'),
-          m: String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0'),
-          s: String(Math.floor((diff / 1000) % 60)).padStart(2, '0'),
-        });
-      } else {
-        setIsOfferEnded(true);
-        clearInterval(timer);
-      }
-    }, 1000);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearInterval(timer);
     };
   }, []);
 
@@ -179,7 +161,7 @@ export default function Page() {
     { id: "6", title: "粉雪の足跡 (Interlude)", duration: "1:45", desc: "静寂への誘い" },
     { id: "7", title: "I'm Here for You", duration: "4:10", desc: "寄り添うためのメッセージ" },
     { id: "8", title: "I'm Here for You (Dual Vocals Version)", duration: "4:10", desc: "重なり合う旋律、その深層へ" },
-    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク" }, // ★視聴無効化
+    { id: "9", title: "I'm Here for You (Slow Jam Remix)", duration: "5:05", desc: "真夜中のためのリワーク" },
     { id: "10", title: "灯の余韻 -Afterglow-", duration: "3:30", desc: "物語の最後を見届ける調べ" },
     { id: "EX", title: "Whispers on the Keys", duration: "4:15", desc: "【限定】公式ストア独占トラック", isExclusive: true },
   ];
@@ -209,7 +191,7 @@ export default function Page() {
     },
     {
       q: "購入後、どのように音源を受け取れますか？",
-      a: "決済完了後、アルバム本編（全11曲のMP3＋4Kアートワークパック）は、即座にダウンロードリンクが表示されます（メールでもリンクが送信されます）。期間限定の特典（Bonus Track Pack / Behind the Keys / 各種ボーナス）は、準備が整い次第、ご購入から14日以内にダウンロードURLを購入時メールアドレス宛に順次お送りします。なお、先行視聴権・クーポンは2026年新作リリース時にメールでご案内します。"
+      a: "決済完了後、アルバム本編（全11曲のMP3＋4Kアートワークパック）は、即座にダウンロードリンクが表示されます（メールでもリンクが送信されます）。New Year特典（Bonus Track Pack / Behind the Keys / 各種ボーナス）は、準備が整い次第、ご購入から14日以内にダウンロードURLを購入時メールアドレス宛に順次お送りします。なお、先行視聴権・クーポンは2026年新作リリース時にメールでご案内します。"
     },
     {
       q: "ストリーミングサービスでも聴けますか？",
@@ -323,15 +305,15 @@ export default function Page() {
                       strokeWidth="1.5"
                       fill="rgba(182, 159, 102, 0.1)"/>
               </svg>
-              Christmas Limited Edition
+              New Year Premium Edition
             </span>
-            <span className="text-[11px] text-white/40 italic tracking-wider">{isOfferEnded ? 'Offer ended' : 'Ends: Dec 26, 2025 (23:59)'}</span>
+            <span className="text-[11px] text-white/40 italic tracking-wider">公式ストア購入者全員に特典進呈中</span>
           </div>
           <div className="flex gap-8 items-center">
             {[
               {v: timeLeft.d, l: 'Days'}, {v: timeLeft.h, l: 'Hrs'}, {v: timeLeft.m, l: 'Min'}, {v: timeLeft.s, l: 'Sec'}
             ].map((unit, i) => (
-              <div key={i} className="text-center">
+              <div key={i} className="text-center opacity-40">
                 <span className="font-sans text-2xl font-light text-white block leading-none">{unit.v}</span>
                 <span className="text-[8px] text-[#B69F66] tracking-widest uppercase">{unit.l}</span>
               </div>
@@ -339,7 +321,7 @@ export default function Page() {
           </div>
           <button onClick={handlePurchase} className="px-10 py-3 border border-[#B69F66] text-[#B69F66] font-bold text-[11px] tracking-[0.4em] uppercase hover:bg-[#B69F66] hover:text-black transition-all group flex flex-col items-center gap-1.5">
             Get Access Now
-            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥7,980 / Last Chance</span>
+            <span className="text-[8px] tracking-[0.25em] opacity-75 italic font-normal">¥9,980 / 特典付き</span>
           </button>
         </div>
       </div>
@@ -361,12 +343,12 @@ export default function Page() {
             冬空の灯
             <span className="text-[clamp(1rem,2vw,2.2rem)] text-[#B69F66]/60 font-light tracking-[1.5em] uppercase mt-8 block font-serif">TOUKA NO AKARI</span>
           </h1>
-          <p className="mt-8 text-[11px] tracking-[0.4em] text-white/30 italic">Christmas Special Edition 2025</p>
+          <p className="mt-8 text-[11px] tracking-[0.4em] text-white/30 italic">New Year Premium Edition 2025-2026</p>
         </div>
       </section>
 
-      {/* 緊急告知バナー */}
-      <section className="py-8 bg-[#B69F66]/10 backdrop-blur-md relative z-10 border-y border-[#B69F66]/30">
+      {/* New Year告知バナー */}
+      <section className="py-8 bg-gradient-to-r from-[#B69F66]/10 via-[#B69F66]/5 to-[#B69F66]/10 backdrop-blur-md relative z-10 border-y border-[#B69F66]/30">
         <div className="max-w-[1000px] mx-auto px-12 text-center">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6">
             <div className="flex items-center gap-3">
@@ -377,11 +359,11 @@ export default function Page() {
                       fill="rgba(182, 159, 102, 0.2)"/>
               </svg>
               <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
-                Last Chance Hours
+                New Year Premium Sale
               </span>
             </div>
             <div className="text-white/70 text-sm tracking-wider">
-              Last Chance価格は<span className="text-[#B69F66] font-bold">12月26日23:59</span>で永久終了
+              公式ストア購入者<span className="text-[#B69F66] font-bold">全員</span>に豪華特典を進呈中
             </div>
           </div>
         </div>
@@ -526,7 +508,7 @@ export default function Page() {
               </div>
               <h4 className="text-white text-xl mb-4 font-light">特別な贈り物</h4>
               <p className="text-white/50 text-sm leading-relaxed">
-                大切な人へのクリスマスプレゼントとして。デジタルグリーティングカード付きで、心のこもった贈り物になります。
+                大切な人への新年の贈り物として。デジタルグリーティングカード付きで、心のこもった贈り物になります。
               </p>
             </div>
 
@@ -663,16 +645,16 @@ export default function Page() {
                       fill="rgba(182, 159, 102, 0.2)"/>
               </svg>
               <span className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
-                Limited Time Bonuses
+                Premium Bonuses
               </span>
             </div>
 
             <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-light text-white mb-6">
-              今だけの<span className="text-[#B69F66] italic">特別特典</span>
+              公式ストア購入者<span className="text-[#B69F66] italic">全員</span>への特典
             </h2>
 
             <p className="text-white/50 text-lg tracking-wider">
-              12月26日23:59までの購入者限定 - 参考価格<span className="text-[#B69F66] font-bold">¥17,400相当</span>を無料進呈
+              参考価格<span className="text-[#B69F66] font-bold">¥17,400相当</span>のプレミアム特典を無料進呈
             </p>
           </div>
 
@@ -682,7 +664,7 @@ export default function Page() {
             {/* 特典1 */}
             <div className="relative border border-[#B69F66]/20 bg-white/[0.02] p-10 transition-all hover:border-[#B69F66] hover:bg-[#B69F66]/[0.03] group">
               <div className="absolute top-4 right-4 px-3 py-1 bg-[#B69F66] text-black text-[9px] font-black tracking-widest uppercase rounded-full">
-                New
+                Bonus
               </div>
 
               <div className="flex items-start gap-6 mb-6">
@@ -717,10 +699,6 @@ export default function Page() {
                           Silent echoes
                         </span>
                       </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[#B69F66] mt-1">•</span>
-                      <span>本日購入者のみ永久取得（非売品）</span>
                     </li>
                   </ul>
                 </div>
@@ -760,11 +738,11 @@ export default function Page() {
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[#B69F66] mt-1">•</span>
-                      <span>「なぜこの音なのか」意思決定の記録（コンセプト／構造）</span>
+                      <span>「なぜこの音なのか」意思決定の記録</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[#B69F66] mt-1">•</span>
-                      <span>このアルバムの"正しい聴き方"ガイド（夜・順番・余韻）</span>
+                      <span>このアルバムの"正しい聴き方"ガイド</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-[#B69F66] mt-1">•</span>
@@ -882,18 +860,18 @@ export default function Page() {
                 <p className="text-white/60 text-sm tracking-wider mb-2">特典総額（4つ合計 / 参考価格）</p>
                 <p className="text-white/40 text-3xl line-through font-['Italiana'] mb-1">¥17,400</p>
                 <p className="text-[#B69F66] text-lg tracking-widest font-bold">
-                  → 本日限定で<span className="text-4xl mx-2">完全無料</span>
+                  → 公式ストア購入者<span className="text-4xl mx-2">全員無料</span>
                 </p>
               </div>
 
               <div className="flex flex-col items-center gap-3">
                 <div className="px-6 py-3 bg-[#B69F66]/10 border border-[#B69F66]/50 rounded-full">
                   <p className="text-[#B69F66] text-sm font-black tracking-[0.3em] uppercase">
-                    12/26 23:59で消滅
+                    New Year Special
                   </p>
                 </div>
                 <p className="text-white/50 text-xs tracking-wider italic">
-                  12月27日以降は一切入手不可
+                  公式ストアだけの永久特典
                 </p>
               </div>
             </div>
@@ -919,7 +897,7 @@ export default function Page() {
           className="max-w-[880px] mx-auto p-16 lg:p-24 bg-[#010308] border border-[#B69F66]/15 cursor-pointer transition-all duration-1000 hover:border-[#B69F66] hover:shadow-[0_0_100px_rgba(182,159,102,0.1)] outline-none focus-visible:ring-1 focus-visible:ring-[#B69F66]/35"
         >
           <div className="text-center">
-            <span className="text-[13px] text-[#B69F66] tracking-[0.5em] uppercase font-black mb-4 block font-sans">Christmas Special Edition</span>
+            <span className="text-[13px] text-[#B69F66] tracking-[0.5em] uppercase font-black mb-4 block font-sans">New Year Premium Edition</span>
 
             <div className="mb-8 flex flex-col items-center gap-3">
               <button
@@ -933,17 +911,17 @@ export default function Page() {
 
             <div className="mb-4">
               <div className="flex items-center justify-center gap-4 mb-2">
-                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥25,380</div>
+                <div className="text-[2rem] text-white/30 line-through font-['Italiana'] tracking-wider">¥27,380</div>
                 <div className="px-4 py-1.5 bg-[#B69F66]/15 border border-[#B69F66]/50 rounded-full">
-                  <span className="text-[#B69F66] text-sm font-black tracking-wider">69% OFF</span>
+                  <span className="text-[#B69F66] text-sm font-black tracking-wider">64% OFF</span>
                 </div>
               </div>
-              <div className="text-[10px] text-white/40 tracking-wider">本体＋特典の総額（¥7,980 + ¥17,400 / 参考価格）</div>
+              <div className="text-[10px] text-white/40 tracking-wider">本体＋特典の総額（¥9,980 + ¥17,400 / 参考価格）</div>
             </div>
 
-            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥7,980</div>
-            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Last Chance Special Price</span>
-            <span className="text-[11px] text-white/50 tracking-wider block mt-2">12月26日より通常価格¥9,980に戻ります</span>
+            <div className="text-[clamp(6rem,10vw,11rem)] text-[#F0ECE4] font-['Italiana'] leading-none my-2 drop-shadow-[0_0_16px_rgba(182,159,102,0.08)]">¥9,980</div>
+            <span className="text-[15px] text-[#B69F66]/80 tracking-[0.2em] uppercase block font-sans mt-4 font-bold">Official Store Standard Price</span>
+            <span className="text-[11px] text-white/50 tracking-wider block mt-2">特典付き・通常価格で販売中</span>
 
             <div className="mt-10 flex flex-col items-center gap-5 w-full">
               <ul className="w-full max-w-[620px] space-y-3 text-left p-0 list-none">
@@ -951,7 +929,7 @@ export default function Page() {
                   '本編10曲＋公式ストア限定 Premium Track 1曲（計11 Tracks）',
                   '購入後すぐにダウンロード（ZIP）＋ 4K Artwork Pack 同梱',
                   'デジタルグリーティングカード付き - 贈り物に最適',
-                  '【12/26まで】4つの特別特典（参考価格¥17,400相当）を完全無料で進呈',
+                  '【全購入者】4つの特別特典（参考価格¥17,400相当）を完全無料で進呈',
                   '特典は購入後14日以内にメールで順次送付（先行視聴権・クーポンは2026年に案内）',
                   '公式ストア限定・Secure Checkout（決済画面へ進みます）'
                 ].map((item, i) => (
@@ -972,7 +950,7 @@ export default function Page() {
 
               <div className="text-[10px] text-white/35 tracking-wider italic leading-loose mt-4">
                 ※クリック後、決済画面へ移動します。<br />
-                本編の音源・画像は購入後すぐ取得できます。期間限定特典は購入後14日以内にメールで順次送付します。
+                本編の音源・画像は購入後すぐ取得できます。特典は購入後14日以内にメールで順次送付します。
               </div>
             </div>
 
@@ -986,7 +964,7 @@ export default function Page() {
       </section>
 
       <footer className="py-16 bg-black text-center border-t border-[#B69F66]/10 relative z-10">
-        <p className="text-[10px] text-white/20 tracking-[0.6em] leading-[2]">© 2025 THE ETERNAL GOLD / TAMAE'S MUSIC LAB.</p>
+        <p className="text-[10px] text-white/20 tracking-[0.6em] leading-[2]">© 2025-2026 THE ETERNAL GOLD / TAMAE'S MUSIC LAB.</p>
       </footer>
     </main>
   );
